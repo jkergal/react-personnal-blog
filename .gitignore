@@ -6,6 +6,9 @@
 .pnp.js
 notes.txt
 .env
+backup-cloud-OSX.sh
+backup-cloud-WIN.bat
+backup-cloud-ignore.txt
 
 # testing
 /coverage
