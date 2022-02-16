@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase.config'
+// import { useForm } from 'react-hook-form'
 // import { useNavigate } from 'react-router-dom'
 
 export default function ArticleForm() {
@@ -10,12 +11,28 @@ export default function ArticleForm() {
     const articlesCollectionRef = collection(db, 'articles')
     // let navigate = useNavigate()
     const [validation, setValidation] = useState('')
+
+    // const [isSubmitSuccessful, setIsSubmitSuccessful] = useState()
+    // const { reset } = useForm()
+
+    // useEffect(() => {
+    //     reset({})
+    // })
+
+    // const inputs = useRef([])
+    // const addInputs = (el) => {
+    //     inputs.current.push(el)
+    // }
+
     const postArticle = async (e) => {
         e.preventDefault()
         try {
             await addDoc(articlesCollectionRef, { title, articleText })
             setValidation('Article sucessfully posted')
-            // navigate('/')
+            console.log('Articled seccessfully posted')
+            // setIsSubmitSuccessful(true)
+            setTitle('')
+            setArticleText('')
         } catch (err) {
             console.log(err)
             setValidation('Wopsy, there was an error posting the article')
@@ -37,7 +54,8 @@ export default function ArticleForm() {
                         required
                         onChange={(event) => {
                             setTitle(event.target.value)
-                        }}></input>
+                        }}
+                        value={title}></input>
 
                     <label className="article-content-label" htmlFor="articleContent">
                         <b>Grab your pencil :</b>
@@ -50,12 +68,11 @@ export default function ArticleForm() {
                         placeholder="Here is my best blog article..."
                         onChange={(event) => {
                             setArticleText(event.target.value)
-                        }}></textarea>
+                        }}
+                        value={articleText}></textarea>
                     <p className="validation-login-form">{validation}</p>
 
-                    <button value="Submit" onClick={postArticle}>
-                        Post
-                    </button>
+                    <button onClick={postArticle}>Post</button>
                 </form>
             </div>
         </>
