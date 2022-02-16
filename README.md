@@ -41,7 +41,7 @@ You may also see any lint errors in the console.
 
 ## Authors
 
-- [@jkergal](https://github.com/jkergal) (hello@johannkergal.fr)
+-   [@jkergal](https://github.com/jkergal) (hello@johannkergal.fr)
 
 ## 🔗 Links
 
