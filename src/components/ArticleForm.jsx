@@ -1,28 +1,40 @@
 import React, { useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../firebase.config'
-// import { useForm } from 'react-hook-form'
-// import { useNavigate } from 'react-router-dom'
 
 export default function ArticleForm() {
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
     const articlesCollectionRef = collection(db, 'articles')
-    // let navigate = useNavigate()
     const [validation, setValidation] = useState('')
 
-    // const [isSubmitSuccessful, setIsSubmitSuccessful] = useState()
-    // const { reset } = useForm()
+    // const [image, setImage] = useState(null)
+    // const [progress, setProgress] = useState(0)
 
-    // useEffect(() => {
-    //     reset({})
-    // })
+    const uploadBannerFile = (event) => {
+        if (event.target.file[0]) {
+            // setImage(e.target.files)
+            console.log('prout')
+        }
+    }
 
-    // const inputs = useRef([])
-    // const addInputs = (el) => {
-    //     inputs.current.push(el)
-    // }
+    const handleUpload = () => {
+        // const uploadTask = storage.ref(`images/${image.name}`).put(image)
+        // uploadTask.on(
+        //     'state_changed',
+        //     (snapshot) => {
+        //         const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+        //         setProgress(progress)
+        //     },
+        //     (error) => {
+        //         console.log(error)
+        //     },
+        //     () => {
+        //         storage.ref('images').child(image.name).getDownloadURL()
+        //     }
+        // )
+    }
 
     const postArticle = async (e) => {
         e.preventDefault()
@@ -30,9 +42,9 @@ export default function ArticleForm() {
             await addDoc(articlesCollectionRef, { title, articleText })
             setValidation('Article sucessfully posted')
             console.log('Articled seccessfully posted')
-            // setIsSubmitSuccessful(true)
             setTitle('')
             setArticleText('')
+            handleUpload()
         } catch (err) {
             console.log(err)
             setValidation('Wopsy, there was an error posting the article')
@@ -70,6 +82,14 @@ export default function ArticleForm() {
                             setArticleText(event.target.value)
                         }}
                         value={articleText}></textarea>
+
+                    <label htmlFor="bannerFile">
+                        <b>Upload banner</b>
+                    </label>
+                    <input type="file" className="uploadButton" onChange={uploadBannerFile}></input>
+
+                    {/* <progress value={progress} max="100" /> */}
+
                     <p className="validation-login-form">{validation}</p>
 
                     <button onClick={postArticle}>Post</button>
