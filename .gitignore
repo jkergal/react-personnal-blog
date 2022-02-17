@@ -7,7 +7,7 @@
 notes.txt
 .env
 backupOSX.sh
-backupWIN.bat
+backupWIN.sh
 backup.ignore.txt
 
 # testing
