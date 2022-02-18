@@ -1,59 +1,72 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
 import { db, storage } from '../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
+import '../utils/style/ArticleForm.css'
 
 export default function ArticleForm() {
-    const [title, setTitle] = React.useState('')
+    const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
     const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
-    const [image, setImage] = React.useState('')
+    const [banner, setBanner] = useState('')
+    const [bannerUrl, setBannerUrl] = useState('')
     const [progress, setProgress] = useState(0)
+    const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
-    const uploadHandler = (e) => {
+    const chooseFileHandler = async (e) => {
         e.preventDefault()
-        setImage(e.target.files[0])
         console.log(e.target.files[0])
-        // console.log('image state : ' + image)
+        setBanner(e.target.files[0])
     }
 
-    const uploadFiles = (image) => {
-        if (!image) return
-        const sotrageRef = ref(storage, `banners/${image.name}`)
-        const uploadTask = uploadBytesResumable(sotrageRef, image)
+    const uploadBanner = (banner) => {
+        if (!banner) {
+            return console.log('error banner is empty')
+        } else {
+            const sotrageRef = ref(storage, `banners/${banner.name}`)
+            const uploadTask = uploadBytesResumable(sotrageRef, banner)
 
-        uploadTask.on(
-            'state_changed',
-            (snapshot) => {
-                const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-                setProgress(prog)
-            },
-            (error) => console.log('there is an error : ' + error),
-            () => {
-                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-                    console.log('File available at', downloadURL)
-                })
-            }
-        )
-    }
-
-    const postArticle = async (e) => {
-        e.preventDefault()
-        try {
-            await addDoc(articlesCollectionRef, { title, articleText })
-            setValidation('Article successfully posted')
-            console.log('Articled successfully posted')
-            setTitle('')
-            setArticleText('')
-            // console.log(image)
-            uploadFiles(image)
-        } catch (err) {
-            console.log(err)
-            setValidation('Wopsy, there was an error posting the article')
+            uploadTask.on(
+                'state_changed',
+                (snapshot) => {
+                    const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                    setProgress(prog)
+                },
+                (error) => console.log('there is an error : ' + error),
+                () => {
+                    getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                        console.log('File available at', downloadURL)
+                        setBannerUrl(downloadURL)
+                        setIsBannerUploaded(true)
+                    })
+                }
+            )
         }
+    }
+
+    useEffect(async () => {
+        if (isBannerUploaded == true) {
+            try {
+                await addDoc(articlesCollectionRef, { title, articleText, bannerUrl })
+                setValidation('Article successfully posted')
+                console.log('Articled successfully posted')
+                setTitle('')
+                setArticleText('')
+            } catch (err) {
+                console.log(err)
+                setValidation('Wopsy, there was an error posting the article')
+            }
+        } else {
+            return
+        }
+    }, [isBannerUploaded])
+
+    const articleSubmitHandler = async (e) => {
+        e.preventDefault()
+        uploadBanner(banner)
     }
 
     return (
@@ -64,7 +77,7 @@ export default function ArticleForm() {
                         <b>Title :</b>
                     </label>
                     <input
-                        className="articleTitleInput"
+                        className="article-tit le-input"
                         type="text"
                         placeholder="Enter article title"
                         name="title"
@@ -89,15 +102,19 @@ export default function ArticleForm() {
                         value={articleText}></textarea>
 
                     <label htmlFor="bannerFile">
-                        <b>Upload banner</b>
+                        <b>Choose a banner for your article :</b>
                     </label>
-                    <input type="file" className="uploadButton" onChange={uploadHandler}></input>
+
+                    <input
+                        type="file"
+                        className="choose-file-handler"
+                        onChange={chooseFileHandler}></input>
 
                     <p className="upload-progress">Uploading done {progress}%</p>
 
                     <p className="validation-login-form">{validation}</p>
 
-                    <button onClick={postArticle}>Post</button>
+                    <button onClick={articleSubmitHandler}>Post</button>
                 </form>
             </div>
         </>
