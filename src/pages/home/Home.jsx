@@ -32,6 +32,7 @@ function Home() {
                                 <ArticleCard
                                     title={article.title}
                                     articleText={article.articleText}
+                                    url={article.bannerUrl}
                                     author={article.author}
                                 />
                             </div>
