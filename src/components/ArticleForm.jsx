@@ -1,50 +1,55 @@
 import React, { useState } from 'react'
 import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../firebase.config'
+import { db, storage } from '../firebase.config'
+import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 
 export default function ArticleForm() {
-    const [title, setTitle] = useState('')
+    const [title, setTitle] = React.useState('')
     const [articleText, setArticleText] = useState('')
 
     const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
-    // const [image, setImage] = useState(null)
-    // const [progress, setProgress] = useState(0)
+    const [image, setImage] = React.useState('')
+    const [progress, setProgress] = useState(0)
 
-    const uploadBannerFile = (event) => {
-        if (event.target.file[0]) {
-            // setImage(e.target.files)
-            console.log('prout')
-        }
+    const uploadHandler = (e) => {
+        e.preventDefault()
+        setImage(e.target.files[0])
+        console.log(e.target.files[0])
+        // console.log('image state : ' + image)
     }
 
-    const handleUpload = () => {
-        // const uploadTask = storage.ref(`images/${image.name}`).put(image)
-        // uploadTask.on(
-        //     'state_changed',
-        //     (snapshot) => {
-        //         const progress = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
-        //         setProgress(progress)
-        //     },
-        //     (error) => {
-        //         console.log(error)
-        //     },
-        //     () => {
-        //         storage.ref('images').child(image.name).getDownloadURL()
-        //     }
-        // )
+    const uploadFiles = (image) => {
+        if (!image) return
+        const sotrageRef = ref(storage, `banners/${image.name}`)
+        const uploadTask = uploadBytesResumable(sotrageRef, image)
+
+        uploadTask.on(
+            'state_changed',
+            (snapshot) => {
+                const prog = Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100)
+                setProgress(prog)
+            },
+            (error) => console.log('there is an error : ' + error),
+            () => {
+                getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
+                    console.log('File available at', downloadURL)
+                })
+            }
+        )
     }
 
     const postArticle = async (e) => {
         e.preventDefault()
         try {
             await addDoc(articlesCollectionRef, { title, articleText })
-            setValidation('Article sucessfully posted')
-            console.log('Articled seccessfully posted')
+            setValidation('Article successfully posted')
+            console.log('Articled successfully posted')
             setTitle('')
             setArticleText('')
-            handleUpload()
+            // console.log(image)
+            uploadFiles(image)
         } catch (err) {
             console.log(err)
             setValidation('Wopsy, there was an error posting the article')
@@ -86,9 +91,9 @@ export default function ArticleForm() {
                     <label htmlFor="bannerFile">
                         <b>Upload banner</b>
                     </label>
-                    <input type="file" className="uploadButton" onChange={uploadBannerFile}></input>
+                    <input type="file" className="uploadButton" onChange={uploadHandler}></input>
 
-                    {/* <progress value={progress} max="100" /> */}
+                    <p className="upload-progress">Uploading done {progress}%</p>
 
                     <p className="validation-login-form">{validation}</p>
 
