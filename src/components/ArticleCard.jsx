@@ -24,11 +24,15 @@ const StyledArticleInfosContainer = styled.div`
     align-items: flex-end;
 `
 
+const StyledH3 = styled.h3`
+    font-family: Bitter Italic Semibold;
+`
+
 export default function ArticleCard(props) {
     return (
         <StyledArticleCardContainer bannerUrl={props.url}>
             <StyledArticleInfosContainer>
-                <h3>{props.title}</h3>
+                <StyledH3>{props.title}</StyledH3>
             </StyledArticleInfosContainer>
         </StyledArticleCardContainer>
     )
