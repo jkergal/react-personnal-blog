@@ -3,6 +3,7 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db, storage } from '../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import '../utils/style/ArticleForm.css'
+import { useNavigate } from 'react-router-dom'
 
 export default function ArticleForm() {
     const [title, setTitle] = useState('')
@@ -16,10 +17,19 @@ export default function ArticleForm() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
+    const navigate = useNavigate()
+
     const chooseFileHandler = async (e) => {
         e.preventDefault()
         console.log(e.target.files[0])
-        setBanner(e.target.files[0])
+        const maxBannerSize = 250 * 1000
+        const bannerSize = e.target.files[0].size
+        if (bannerSize > maxBannerSize) {
+            setValidation('Max file size : 250ko, please choose another banner.')
+            return
+        } else {
+            setBanner(e.target.files[0])
+        }
     }
 
     const uploadBanner = (banner) => {
@@ -55,6 +65,8 @@ export default function ArticleForm() {
                 console.log('Articled successfully posted')
                 setTitle('')
                 setArticleText('')
+                setIsBannerUploaded(false)
+                navigate('/')
             } catch (err) {
                 console.log(err)
                 setValidation('Wopsy, there was an error posting the article')
@@ -107,6 +119,7 @@ export default function ArticleForm() {
 
                     <input
                         type="file"
+                        accept=".png, .jpg, .jpeg"
                         className="choose-file-handler"
                         onChange={chooseFileHandler}></input>
 
