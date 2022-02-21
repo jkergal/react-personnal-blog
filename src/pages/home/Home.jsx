@@ -30,8 +30,9 @@ function Home() {
                         return (
                             <div className="article-card" key={article.id}>
                                 <ArticleCard
+                                    id={article.id}
                                     title={article.title}
-                                    articleText={article.articleText}
+                                    text={article.text}
                                     url={article.bannerUrl}
                                     author={article.author}
                                 />

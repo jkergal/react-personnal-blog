@@ -15,7 +15,7 @@ export default function app(props) {
             <NavBarDev loginAdminPath={props.loginAdminPath} />
             <Routes>
                 <Route exact path="/" element={<Home />}></Route>
-                <Route path="/article" element={<Article />}></Route>
+                <Route path="/article/:articleId" element={<Article />}></Route>
 
                 <Route path={props.loginAdminPath} element={<Login />}></Route>
                 <Route path="/private" element={<Private />}>

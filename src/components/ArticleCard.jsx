@@ -1,6 +1,7 @@
 import React from 'react'
 import '../utils/style/ArticleCard.css'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 const StyledArticleCardContainer = styled.div`
     height: 250px;
@@ -28,11 +29,22 @@ const StyledH3 = styled.h3`
     font-family: Bitter Italic Semibold;
 `
 
+const StyledReadMoreLink = styled(Link)`
+    font-family: Bitter Italic Medium;
+    test-decoration: underline;
+`
+
 export default function ArticleCard(props) {
+    const articleLink = `/article/${props.id}`
+
+    // const [articleData, set ArticleData] =
+
     return (
         <StyledArticleCardContainer bannerUrl={props.url}>
             <StyledArticleInfosContainer>
-                <StyledH3>{props.title}</StyledH3>
+                <StyledReadMoreLink to={articleLink}>
+                    <StyledH3>{props.title}</StyledH3>
+                </StyledReadMoreLink>
             </StyledArticleInfosContainer>
         </StyledArticleCardContainer>
     )
