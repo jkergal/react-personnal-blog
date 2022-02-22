@@ -40,7 +40,6 @@ export default function NavBarDev(props) {
         <div>
             <nav>
                 <Link to="/">Home / </Link>
-                <Link to="/article">Article / </Link>
                 <Link to="/private/dashboard">Dashboard / </Link>
                 <Link to="/private/write-article">Write Article / </Link>
                 <button onClick={logOut}>LOG OUT</button>

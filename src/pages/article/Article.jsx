@@ -9,6 +9,7 @@ export default function Article() {
     // console.log(articleId)
     // const [loading, setLoading] = useState(true)
     const [articleData, setArticleData] = useState({})
+    const [articleTextModified, setArticleTextModified] = useState('')
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
@@ -35,11 +36,15 @@ export default function Article() {
         fetchData()
     }, [])
 
+    useEffect(() => {
+        setArticleTextModified(articleData.articleText.replace('\\n', '\n'))
+    }, [articleData])
+
     return (
         <div>
             <img src={articleData.bannerUrl}></img>
             <h1>{articleData.title}</h1>
-            <p>{articleData.articleText}</p>
+            <p>{articleTextModified}</p>
         </div>
     )
 }
