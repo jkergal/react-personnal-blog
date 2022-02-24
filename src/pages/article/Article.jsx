@@ -4,12 +4,14 @@ import { db } from '../../firebase.config'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Article.css'
+// import { map } from '@firebase/util'
 
 export default function Article() {
     const { articleId } = useParams('')
     // console.log(articleId)
     // const [loading, setLoading] = useState(true)
     const [articleData, setArticleData] = useState({})
+    // const [dateString, setDateString] = useState('')
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
@@ -34,10 +36,18 @@ export default function Article() {
         fetchData()
     }, [])
 
+    // useEffect(() => {
+    //     setDateString(articleData.articleDate.getDay())
+    // }, [articleData])
+
     return (
         <div>
             <img src={articleData.bannerUrl}></img>
             <h1>{articleData.title}</h1>
+            {/* {articleData.articleDate.map((date) => (
+                <div key="nanoseconds">{date.nanoseconds}</div>
+            ))} */}
+            {/* <h3>{articleData.articleDate}</h3> */}
             <p className="article-text">{articleData.articleText}</p>
         </div>
     )
