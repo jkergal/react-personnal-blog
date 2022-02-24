@@ -11,7 +11,8 @@ export default function Article() {
     // console.log(articleId)
     // const [loading, setLoading] = useState(true)
     const [articleData, setArticleData] = useState({})
-    // const [dateString, setDateString] = useState('')
+    const [firebaseTimestamp, setFirebaseTimestamp] = useState({})
+    // const [convertedTimestamp, setConvertedTimestamp] = useState('')
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
@@ -20,7 +21,7 @@ export default function Article() {
             try {
                 const docSnap = await getDoc(docRef)
 
-                console.log('response', docSnap)
+                console.log('response firebase', docSnap)
 
                 if (docSnap.exists()) {
                     console.log('Document data:', docSnap.data())
@@ -36,18 +37,32 @@ export default function Article() {
         fetchData()
     }, [])
 
-    // useEffect(() => {
-    //     setDateString(articleData.articleDate.getDay())
-    // }, [articleData])
+    useEffect(() => {
+        setFirebaseTimestamp(articleData.articleDate)
+        console.log('setDate')
+    }, [articleData])
+
+    useEffect(() => {
+        console.log(firebaseTimestamp.toDate())
+        // setConvertedTimestamp(
+        //     new Date(firebaseTimestamp.seconds * 1000).toLocaleDateString('en-US')
+        // )
+        // console.log('converted date : ' + convertedTimestamp)
+    }, [firebaseTimestamp])
 
     return (
         <div>
             <img src={articleData.bannerUrl}></img>
             <h1>{articleData.title}</h1>
-            {/* {articleData.articleDate.map((date) => (
-                <div key="nanoseconds">{date.nanoseconds}</div>
+            {/* {date.map((dateItem) => (
+                <div key="nanoseconds">{dateItem.nanoseconds}</div>
             ))} */}
-            {/* <h3>{articleData.articleDate}</h3> */}
+            {/* <h3>{date}</h3> */}
+            {/* {articleData.map((articleDate) => {
+                ;<h3 key={articleData.id}>
+                    {new Date(item.articleDate.seconds * 1000).toLocaleDateString('en-US')}
+                </h3>
+            })} */}
             <p className="article-text">{articleData.articleText}</p>
         </div>
     )
