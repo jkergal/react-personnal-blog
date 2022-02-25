@@ -6,6 +6,9 @@ import '../utils/style/ArticleForm.css'
 import { useNavigate } from 'react-router-dom'
 
 export default function ArticleForm() {
+    const currentDate = new Date()
+    const [articleDate, setArticleDate] = useState('')
+
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
@@ -19,6 +22,11 @@ export default function ArticleForm() {
 
     const navigate = useNavigate()
 
+    useEffect(() => {
+        setArticleDate(currentDate)
+        console.log(currentDate)
+    }, [])
+
     const chooseFileHandler = async (e) => {
         e.preventDefault()
         console.log(e.target.files[0])
@@ -30,6 +38,11 @@ export default function ArticleForm() {
         } else {
             setBanner(e.target.files[0])
         }
+    }
+
+    const articleSubmitHandler = async (e) => {
+        e.preventDefault()
+        uploadBanner(banner)
     }
 
     const uploadBanner = (banner) => {
@@ -60,11 +73,12 @@ export default function ArticleForm() {
     useEffect(async () => {
         if (isBannerUploaded == true) {
             try {
-                await addDoc(articlesCollectionRef, { title, articleText, bannerUrl })
+                await addDoc(articlesCollectionRef, { title, articleText, bannerUrl, articleDate })
                 setValidation('Article successfully posted')
                 console.log('Articled successfully posted')
                 setTitle('')
                 setArticleText('')
+                setArticleDate('')
                 setIsBannerUploaded(false)
                 navigate('/')
             } catch (err) {
@@ -75,11 +89,6 @@ export default function ArticleForm() {
             return
         }
     }, [isBannerUploaded])
-
-    const articleSubmitHandler = async (e) => {
-        e.preventDefault()
-        uploadBanner(banner)
-    }
 
     return (
         <>

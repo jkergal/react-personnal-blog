@@ -7,37 +7,40 @@ import './Article.css'
 
 export default function Article() {
     const { articleId } = useParams('')
-    // console.log(articleId)
-    // const [loading, setLoading] = useState(true)
     const [articleData, setArticleData] = useState({})
+    const [articleDateString, setArticleDateString] = useState('')
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
     useEffect(() => {
+        let mounted = true
         const fetchData = async () => {
             try {
                 const docSnap = await getDoc(docRef)
 
-                console.log('response', docSnap)
+                console.log('response firebase', docSnap)
 
-                if (docSnap.exists()) {
-                    console.log('Document data:', docSnap.data())
+                if (docSnap.exists() && mounted) {
+                    console.log('docSnap.data()', docSnap.data())
+                    setArticleData(docSnap.data())
+                    setArticleDateString(
+                        new Date(docSnap.data().articleDate.seconds * 1000).toDateString()
+                    )
                 }
-
-                setArticleData(docSnap.data())
-                console.log('state data : ' + articleData)
             } catch (err) {
                 console.error(err)
             }
         }
 
         fetchData()
+        return () => (mounted = false)
     }, [])
 
     return (
         <div>
             <img src={articleData.bannerUrl}></img>
             <h1>{articleData.title}</h1>
+            <h3>{articleDateString}</h3>
             <p className="article-text">{articleData.articleText}</p>
         </div>
     )
