@@ -4,11 +4,13 @@ import { db } from '../../firebase.config'
 import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Article.css'
+import ReactMarkdown from 'react-markdown'
 
 export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
+    // const source = `#heading 1`
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
@@ -42,7 +44,9 @@ export default function Article() {
                 <img src={articleData.bannerUrl}></img>
                 <h1>{articleData.title}</h1>
                 <h3>{articleDateString}</h3>
-                <p className="article-text">{articleData.articleText}</p>
+                <p className="article-text">
+                    <ReactMarkdown children={articleData.articleText} />
+                </p>
             </div>
         </div>
     )
