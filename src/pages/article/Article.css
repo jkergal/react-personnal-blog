@@ -2,3 +2,22 @@
     white-space: pre-line;
     line-break: anywhere;
 }
+
+.article-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+img {
+    max-width: 100%;
+    height: auto;
+}
+
+.article-wrapper {
+    padding: 25px;
+    margin: 25px;
+    width: 1000px;
+    border-radius: 10px;
+    background-color: white;
+}

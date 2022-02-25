@@ -37,11 +37,13 @@ export default function Article() {
     }, [])
 
     return (
-        <div>
-            <img src={articleData.bannerUrl}></img>
-            <h1>{articleData.title}</h1>
-            <h3>{articleDateString}</h3>
-            <p className="article-text">{articleData.articleText}</p>
+        <div className="article-container">
+            <div className="article-wrapper">
+                <img src={articleData.bannerUrl}></img>
+                <h1>{articleData.title}</h1>
+                <h3>{articleDateString}</h3>
+                <p className="article-text">{articleData.articleText}</p>
+            </div>
         </div>
     )
 }
