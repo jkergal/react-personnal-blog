@@ -21,3 +21,8 @@ img {
     border-radius: 10px;
     background-color: white;
 }
+
+.article-paragraphs {
+    /* display: flex; */
+    text-align: justify;
+}

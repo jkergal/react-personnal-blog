@@ -4,6 +4,7 @@ import { db, storage } from '../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import '../utils/style/ArticleForm.css'
 import { useNavigate } from 'react-router-dom'
+import MarkdownEditor from './MarkdownEditor'
 
 export default function ArticleForm() {
     const currentDate = new Date()
@@ -30,7 +31,7 @@ export default function ArticleForm() {
     const chooseFileHandler = async (e) => {
         e.preventDefault()
         console.log(e.target.files[0])
-        const maxBannerSize = 250 * 1000
+        const maxBannerSize = 300 * 1000
         const bannerSize = e.target.files[0].size
         if (bannerSize > maxBannerSize) {
             setValidation('Max file size : 250ko, please choose another banner.')
@@ -73,7 +74,7 @@ export default function ArticleForm() {
     useEffect(async () => {
         if (isBannerUploaded == true) {
             try {
-                await addDoc(articlesCollectionRef, { title, articleText, bannerUrl, articleDate })
+                await addDoc(articlesCollectionRef, { articleText, bannerUrl, articleDate, title })
                 setValidation('Article successfully posted')
                 console.log('Articled successfully posted')
                 setTitle('')
@@ -94,11 +95,8 @@ export default function ArticleForm() {
         <>
             <div className="article-form-container">
                 <form className="article-form">
-                    <label className="article-title-label" htmlFor="articleTitle">
-                        <b>Title :</b>
-                    </label>
                     <input
-                        className="article-tit le-input"
+                        className="article-title-input"
                         type="text"
                         placeholder="Enter article title"
                         name="title"
@@ -108,19 +106,11 @@ export default function ArticleForm() {
                         }}
                         value={title}></input>
 
-                    <label className="article-content-label" htmlFor="articleContent">
-                        <b>Grab your pencil :</b>
-                    </label>
-                    <textarea
-                        className="article-content-input"
-                        name="articleContent"
-                        rows="50"
-                        cols="50"
-                        placeholder="Here is my best blog article..."
-                        onChange={(event) => {
-                            setArticleText(event.target.value)
-                        }}
-                        value={articleText}></textarea>
+                    <MarkdownEditor
+                        // className="markdown-editor"
+                        setArticleText={setArticleText}
+                        articleText={articleText}
+                    />
 
                     <label htmlFor="bannerFile">
                         <b>Choose a banner for your article :</b>

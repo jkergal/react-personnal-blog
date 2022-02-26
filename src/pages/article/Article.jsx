@@ -44,7 +44,9 @@ export default function Article() {
                 <img src={articleData.bannerUrl}></img>
                 <h1>{articleData.title}</h1>
                 <h3>{articleDateString}</h3>
-                <ReactMarkdown children={articleData.articleText} />
+                <div className="article-paragraphs">
+                    <ReactMarkdown children={articleData.articleText} />
+                </div>
             </div>
         </div>
     )
