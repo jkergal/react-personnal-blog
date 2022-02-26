@@ -10,7 +10,7 @@ export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    // const source = `#heading 1`
+    // const source = `**heading 1**`
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
@@ -44,9 +44,7 @@ export default function Article() {
                 <img src={articleData.bannerUrl}></img>
                 <h1>{articleData.title}</h1>
                 <h3>{articleDateString}</h3>
-                <p className="article-text">
-                    <ReactMarkdown children={articleData.articleText} />
-                </p>
+                <ReactMarkdown children={articleData.articleText} />
             </div>
         </div>
     )
