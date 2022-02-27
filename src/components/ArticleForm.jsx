@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { addDoc, collection } from 'firebase/firestore'
+import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import '../utils/style/ArticleForm.css'
@@ -13,7 +13,7 @@ export default function ArticleForm() {
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
-    const articlesCollectionRef = collection(db, 'articles')
+    // const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
     const [banner, setBanner] = useState('')
@@ -74,7 +74,12 @@ export default function ArticleForm() {
     useEffect(async () => {
         if (isBannerUploaded == true) {
             try {
-                await addDoc(articlesCollectionRef, { articleText, bannerUrl, articleDate, title })
+                await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
+                    articleText,
+                    bannerUrl,
+                    articleDate,
+                    title
+                })
                 setValidation('Article successfully posted')
                 console.log('Articled successfully posted')
                 setTitle('')
