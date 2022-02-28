@@ -7,6 +7,7 @@ import Private from './pages/Private/Private'
 import Dashboard from './pages/Private/dashboard/Dashboard'
 import WriteArticle from './pages/Private/write-article/WriteArticle'
 import Article from './pages/article/Article'
+import EditArticle from './pages/Private/edit-article/EditArticle'
 
 export default function app(props) {
     console.log('App component as launched yeahh')
@@ -20,7 +21,10 @@ export default function app(props) {
                 <Route path={props.loginAdminPath} element={<Login />}></Route>
                 <Route path="/private" element={<Private />}>
                     <Route path="/private/dashboard" element={<Dashboard />}></Route>
-                    <Route path="write-article" element={<WriteArticle />}></Route>
+                    <Route
+                        path="/private/edit-article/:articleId"
+                        element={<EditArticle />}></Route>
+                    <Route path="/private/write-article" element={<WriteArticle />}></Route>
                 </Route>
             </Routes>
         </>
