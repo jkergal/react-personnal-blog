@@ -21,6 +21,8 @@ export default function WriteArticle() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
+    const defaultBanner = 'https://jker.fr/defaultbanner'
+
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -48,7 +50,8 @@ export default function WriteArticle() {
 
     const uploadBanner = (banner) => {
         if (!banner) {
-            return console.log('error banner is empty')
+            setBannerUrl(defaultBanner)
+            setIsBannerUploaded(true)
         } else {
             const sotrageRef = ref(storage, `banners/${banner.name}`)
             const uploadTask = uploadBytesResumable(sotrageRef, banner)

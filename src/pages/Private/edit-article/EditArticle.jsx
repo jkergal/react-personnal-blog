@@ -74,7 +74,8 @@ export default function WriteArticle() {
 
     const uploadBanner = (banner) => {
         if (!banner) {
-            return console.log('error banner is empty')
+            setBannerUrl(articleData.bannerUrl)
+            setIsBannerUploaded(true)
         } else {
             const sotrageRef = ref(storage, `banners/${banner.name}`)
             const uploadTask = uploadBytesResumable(sotrageRef, banner)
