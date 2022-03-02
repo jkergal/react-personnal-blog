@@ -3,11 +3,6 @@ import React, { useState, useEffect } from 'react'
 export default function MarkdownEditor({ setArticleText, articleText }) {
     const [highlightedText, setHighlightedText] = useState('')
 
-    // const [isMouseInTextArea, setIsMouseInTextArea] = useState(false)
-    const [isMouseUp, setIsMouseUp] = useState(false)
-    const [selectionStartPos, setSelectionStartPos] = useState(0)
-    const [selectionEndPos, setSelectionEndPos] = useState(0)
-
     const selectedText = highlightedText
     const bold = `**${selectedText}**`
     const italic = `*${selectedText}*`
@@ -18,80 +13,16 @@ export default function MarkdownEditor({ setArticleText, articleText }) {
     const quote = `>${selectedText}`
     const link = `[${selectedText}](${selectedText})`
 
-    // useEffect(() => {
-    //     const saveSelection = () => {
-    //         setHighlightedText(window.getSelection().toString())
-    //     }
-    //     document.addEventListener('mouseup', saveSelection)
-    //     return () => document.removeEventListener('mouseup', saveSelection)
-    // }, [])
-
     useEffect(() => {
-        var textAreaElements = document.getElementsByClassName('article-content-input')
-
-        ;[...textAreaElements].forEach(function (element) {
-            element.addEventListener('mouseenter', function () {
-                // setIsMouseInTextArea(true)
-                console.log('mouse in text area')
-            })
-
-            element.addEventListener('mouseout', function () {
-                // setIsMouseInTextArea(false)
-                console.log('mouse out from text area')
-            })
-
-            // register "mouseup" event for the mouse
-            document.addEventListener('mouseup', function () {
-                setIsMouseUp(true)
-            })
-        })
+        const saveSelection = () => {
+            setHighlightedText(window.getSelection().toString())
+        }
+        document.addEventListener('mouseup', saveSelection)
+        return () => document.removeEventListener('mouseup', saveSelection)
     }, [])
 
-    useEffect(() => {
-        console.log(isMouseUp)
-
-        const selection = function (element) {
-            let startPos = element.selectionStart
-            let endPos = element.selectionEnd
-            let selectedText = element.value.substring(startPos, endPos)
-            setHighlightedText(window.getSelection().toString())
-
-            if (selectedText.length <= 0) {
-                return // stop here if selection length is <= 0
-            }
-
-            // log the selection
-            console.log('startPos: ' + startPos, ' | endPos: ' + endPos)
-            console.log('selectedText: ' + selectedText)
-            setSelectionStartPos(startPos)
-            setSelectionEndPos(endPos)
-
-            return
-        }
-
-        var textAreaElements = document.getElementsByClassName('article-content-input')
-
-        ;[...textAreaElements].forEach(function (element) {
-            if (isMouseUp == true) {
-                selection(element)
-                console.log(element)
-                setIsMouseUp(false)
-            }
-
-            // register "mouseup" event for the mouse
-            element.addEventListener('mouseup', function () {
-                setIsMouseUp(true)
-            })
-        })
-    }, [isMouseUp])
-
-    String.prototype.replaceBetween = function (start, end, what) {
-        return this.substring(0, start) + what + this.substring(end)
-    }
-
     const markdownHandle = (markdown) => {
-        setArticleText(articleText.replaceBetween(selectionStartPos, selectionEndPos, markdown))
-        console.log(highlightedText)
+        setArticleText(articleText.replace(highlightedText, markdown))
         console.log('update article')
     }
 
