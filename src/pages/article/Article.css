@@ -7,6 +7,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    padding: 25px;
 }
 
 img {
@@ -16,21 +17,28 @@ img {
 
 .article-wrapper {
     padding: 25px;
-    margin: 25px;
-    width: 1000px;
+    /* margin: 25px; */
+    width: 100%;
     border-radius: 10px;
     background-color: white;
 }
 
 .article-paragraphs {
-    /* display: flex; */
     text-align: justify;
 }
-/* 
-. {
-    color: greenyellow;
-    width: 70%;
-    background-color: black;
-    padding: 30px;
-    margin: 30px;
-} */
+
+.markdown-body > pre {
+    max-width: 50%;
+    margin: auto;
+}
+
+@media only screen and (max-width: 768px) {
+    img {
+        max-width: 90%;
+        height: auto;
+    }
+    .markdown-body > pre {
+        max-width: 90%;
+        margin: auto;
+    }
+}

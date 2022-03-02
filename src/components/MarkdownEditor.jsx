@@ -3,7 +3,6 @@ import React, { useState, useEffect } from 'react'
 export default function MarkdownEditor({ setArticleText, articleText }) {
     const [highlightedText, setHighlightedText] = useState('')
 
-    // const [isMouseInTextArea, setIsMouseInTextArea] = useState(false)
     const [isMouseUp, setIsMouseUp] = useState(false)
     const [selectionStartPos, setSelectionStartPos] = useState(0)
     const [selectionEndPos, setSelectionEndPos] = useState(0)
@@ -14,33 +13,22 @@ export default function MarkdownEditor({ setArticleText, articleText }) {
     const h2 = `## ${selectedText}`
     const h3 = `### ${selectedText}`
     const h4 = `#### ${selectedText}`
-    const codeQuote = '`' + `${selectedText}` + '`'
+    const codeQuote = '```' + `\n${selectedText}\n` + '```'
     const quote = `>${selectedText}`
     const link = `[${selectedText}](${selectedText})`
-
-    // useEffect(() => {
-    //     const saveSelection = () => {
-    //         setHighlightedText(window.getSelection().toString())
-    //     }
-    //     document.addEventListener('mouseup', saveSelection)
-    //     return () => document.removeEventListener('mouseup', saveSelection)
-    // }, [])
 
     useEffect(() => {
         var textAreaElements = document.getElementsByClassName('article-content-input')
 
         ;[...textAreaElements].forEach(function (element) {
             element.addEventListener('mouseenter', function () {
-                // setIsMouseInTextArea(true)
                 console.log('mouse in text area')
             })
 
             element.addEventListener('mouseout', function () {
-                // setIsMouseInTextArea(false)
                 console.log('mouse out from text area')
             })
 
-            // register "mouseup" event for the mouse
             document.addEventListener('mouseup', function () {
                 setIsMouseUp(true)
             })
@@ -57,10 +45,9 @@ export default function MarkdownEditor({ setArticleText, articleText }) {
             setHighlightedText(window.getSelection().toString())
 
             if (selectedText.length <= 0) {
-                return // stop here if selection length is <= 0
+                return
             }
 
-            // log the selection
             console.log('startPos: ' + startPos, ' | endPos: ' + endPos)
             console.log('selectedText: ' + selectedText)
             setSelectionStartPos(startPos)
@@ -78,7 +65,6 @@ export default function MarkdownEditor({ setArticleText, articleText }) {
                 setIsMouseUp(false)
             }
 
-            // register "mouseup" event for the mouse
             element.addEventListener('mouseup', function () {
                 setIsMouseUp(true)
             })

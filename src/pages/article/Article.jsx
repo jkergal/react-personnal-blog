@@ -5,13 +5,12 @@ import { useParams } from 'react-router-dom'
 import { useState, useEffect } from 'react'
 import './Article.css'
 import ReactMarkdown from 'react-markdown'
-import 'github-markdown-css/github-markdown-light.css'
+import '../../utils/style/github-markdown-light.css'
 
 export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    // const source = `**heading 1**`
 
     const docRef = doc(db, 'articles', `${articleId}`)
 
