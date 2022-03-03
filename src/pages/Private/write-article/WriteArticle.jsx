@@ -21,6 +21,8 @@ export default function WriteArticle() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
+    // const isEditionMode = false
+
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
     const navigate = useNavigate()
@@ -103,6 +105,9 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Write an article</h1>
             <ArticleForm
+                isEditionMode={false}
+                submittingType="Post"
+                bannerUploadingLabel="Choose a banner for your article :"
                 setTitle={setTitle}
                 title={title}
                 setArticleText={setArticleText}

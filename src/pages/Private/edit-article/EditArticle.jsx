@@ -21,6 +21,8 @@ export default function WriteArticle() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
+    // const isEditionMode = true
+
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const docRef = doc(db, 'articles', `${articleId}`)
@@ -126,6 +128,9 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Edit your article</h1>
             <ArticleForm
+                isEditionMode={true}
+                submittingType="Save"
+                bannerUploadingLabel="Change your article banner :"
                 setTitle={setTitle}
                 title={title}
                 setArticleText={setArticleText}

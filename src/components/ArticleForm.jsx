@@ -5,20 +5,30 @@ import '../utils/style/ArticleForm.css'
 import MarkdownEditor from './MarkdownEditor'
 
 export default function ArticleForm(props) {
+    function ArticleTitle(props) {
+        if (props.isEditionMode) {
+            return <h2>{props.title}</h2>
+        } else {
+            return (
+                <input
+                    className="article-title-input"
+                    type="text"
+                    placeholder="Enter article title"
+                    name="title"
+                    required
+                    onChange={(event) => {
+                        props.setTitle(event.target.value)
+                    }}
+                    value={props.title}></input>
+            )
+        }
+    }
+
     return (
         <>
             <div className="article-form-container">
                 <form className="article-form">
-                    <input
-                        className="article-title-input"
-                        type="text"
-                        placeholder="Enter article title"
-                        name="title"
-                        required
-                        onChange={(event) => {
-                            props.setTitle(event.target.value)
-                        }}
-                        value={props.title}></input>
+                    <ArticleTitle isEditionMode={props.isEditionMode} title={props.title} />
 
                     <MarkdownEditor
                         setArticleText={props.setArticleText}
@@ -26,7 +36,7 @@ export default function ArticleForm(props) {
                     />
 
                     <label htmlFor="bannerFile">
-                        <b>Choose a banner for your article :</b>
+                        <b>{props.bannerUploadingLabel}</b>
                     </label>
 
                     <input
@@ -39,7 +49,7 @@ export default function ArticleForm(props) {
 
                     <p className="validation-login-form">{props.validation}</p>
 
-                    <button onClick={props.articleSubmitHandler}>Post</button>
+                    <button onClick={props.articleSubmitHandler}>{props.submittingType}</button>
                 </form>
             </div>
         </>
