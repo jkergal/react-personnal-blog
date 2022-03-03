@@ -4,13 +4,18 @@ import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import './Dashboard.css'
 import { useNavigate } from 'react-router-dom'
+import { usePublicArticlesDataContext } from '../../../utils/context/PublicArticlesDataContext'
 
 export default function Dashboard() {
+    const { publicArticles } = usePublicArticlesDataContext()
+
     const [articles, setArticles] = useState([])
     const articlesCollectionRef = collection(db, 'articles')
     // const editArticleLink = `/edit-article/${article.id}`
 
     const navigate = useNavigate()
+
+    console.log(publicArticles)
 
     useEffect(() => {
         const getArticles = async () => {
