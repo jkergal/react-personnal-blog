@@ -21,8 +21,6 @@ export default function WriteArticle() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
-    // const isEditionMode = false
-
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
     const navigate = useNavigate()

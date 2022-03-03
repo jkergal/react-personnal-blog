@@ -21,8 +21,6 @@ export default function WriteArticle() {
     const [progress, setProgress] = useState(0)
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
-    // const isEditionMode = true
-
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const docRef = doc(db, 'articles', `${articleId}`)
