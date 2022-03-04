@@ -41,8 +41,15 @@ const usePublicArticlesData = () => {
         // publicArticles.map((article) => {
         //     console.log(article.id)
         // })
-        publicArticles.find((article) => article.id == 'test-article-with-code')
+        const articleTitle = publicArticles.find(function (post) {
+            if (post.id == 'test-article-with-code') return true //here use a var articleId
+        })
+
+        console.log(publicArticles)
+        console.log(articleTitle)
     }, [publicArticles])
 }
+
+// to do : export publicArticle to use it in consumers
 
 export default usePublicArticlesData
