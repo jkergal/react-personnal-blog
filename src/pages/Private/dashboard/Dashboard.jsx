@@ -1,23 +1,32 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { db } from '../../../firebase.config'
 import { collection, getDocs, doc, deleteDoc } from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import './Dashboard.css'
 import { useNavigate } from 'react-router-dom'
-import { usePublicArticlesDataContext } from '../../../utils/context/PublicArticlesDataContext'
+import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
 
 export default function Dashboard() {
-    const { publicArticles } = usePublicArticlesDataContext()
+    const publicArticles = useContext(PublicArticlesDataContext)
 
     const [articles, setArticles] = useState([])
     const articlesCollectionRef = collection(db, 'articles')
-    // const editArticleLink = `/edit-article/${article.id}`
 
     const navigate = useNavigate()
 
-    console.log(publicArticles)
-
     useEffect(() => {
+        //using it from context
+        const article = publicArticles.find(function (post) {
+            if (post.id == 'test-article-with-code') return true //here use a var articleId
+            // use .map() to get all titles of all articles
+        })
+
+        if (article == undefined) {
+            return
+        } else {
+            console.log(article)
+        }
+        //----------------
         const getArticles = async () => {
             const data = await getDocs(articlesCollectionRef)
             setArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))

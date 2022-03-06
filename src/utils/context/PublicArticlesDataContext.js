@@ -1,22 +1,41 @@
-import { createContext, useContext } from 'react'
-import usePublicArticlesData from '../hooks/usePublicArticlesData'
+import { createContext } from 'react'
+import { useState, useEffect } from 'react'
+import { collection, getDocs } from 'firebase/firestore'
+import { db } from '../../firebase.config'
 
-const PublicArticlesDataContext = createContext()
+export const PublicArticlesDataContext = createContext()
 
-export const usePublicArticlesDataContext = () => {
-    const publicArticles = useContext(PublicArticlesDataContext)
+export function PublicArticlesDataProvider(props) {
+    const [publicArticles, setPublicArticles] = useState([])
+    const docRef = collection(db, 'articles')
+    const [loadingData, setLoadingData] = useState(true)
 
-    return publicArticles
-}
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const data = await getDocs(docRef)
 
-export const PublicArticlesProvider = ({ children }) => {
-    const publicArticles = usePublicArticlesData()
+                setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+                setLoadingData(false)
+                console.log('response firebase', data)
+            } catch (err) {
+                console.error(err)
+            }
+        }
 
-    return publicArticles ? (
+        fetchData()
+
+        return publicArticles
+    }, [])
+
+    useEffect(() => {
+        console.log('public articles :')
+        console.log(publicArticles)
+    }, [publicArticles])
+
+    return (
         <PublicArticlesDataContext.Provider value={publicArticles}>
-            {children}
+            {!loadingData && props.children}
         </PublicArticlesDataContext.Provider>
-    ) : (
-        <h1>Loading...</h1>
     )
 }
