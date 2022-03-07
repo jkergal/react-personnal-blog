@@ -17,7 +17,6 @@ export function PublicArticlesDataProvider(props) {
 
                 setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
                 setLoadingData(false)
-                console.log('response firebase', data)
             } catch (err) {
                 console.error(err)
             }
@@ -27,11 +26,6 @@ export function PublicArticlesDataProvider(props) {
 
         return publicArticles
     }, [])
-
-    useEffect(() => {
-        console.log('public articles :')
-        console.log(publicArticles)
-    }, [publicArticles])
 
     return (
         <PublicArticlesDataContext.Provider value={publicArticles}>
