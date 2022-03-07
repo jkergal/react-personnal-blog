@@ -44,7 +44,16 @@ export default function ArticleForm(props) {
 
                     <p className="validation-login-form">{props.validation}</p>
 
-                    <button onClick={props.articleSubmitHandler}>{props.submittingType}</button>
+                    {props.submittingType == 'Save' ? (
+                        <button onClick={props.articleSubmitHandler}>{props.submittingType}</button>
+                    ) : (
+                        <div className="buttons-container">
+                            <button onClick={props.articleSubmitHandler}>
+                                {props.submittingType}
+                            </button>
+                            <button onClick={props.articleSubmitHandler}>Save as draft</button>
+                        </div>
+                    )}
                 </form>
             </div>
         </>

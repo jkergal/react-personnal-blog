@@ -13,7 +13,6 @@ export default function WriteArticle() {
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
-    // const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
     const [banner, setBanner] = useState('')
@@ -25,11 +24,13 @@ export default function WriteArticle() {
 
     const navigate = useNavigate()
 
+    // save date in the state at first render of the page
     useEffect(() => {
         setArticleDate(currentDate)
         console.log(currentDate)
     }, [])
 
+    // save chosen file in the state
     const chooseFileHandler = async (e) => {
         e.preventDefault()
         console.log(e.target.files[0])
@@ -43,11 +44,13 @@ export default function WriteArticle() {
         }
     }
 
+    // 1 - form subimitting start here with the button onClick event
     const articleSubmitHandler = async (e) => {
         e.preventDefault()
         uploadBanner(banner)
     }
 
+    // 2 - then the handler uplaod the file in the firebase storage
     const uploadBanner = (banner) => {
         if (!banner) {
             setBannerUrl(defaultBanner)
@@ -74,6 +77,7 @@ export default function WriteArticle() {
         }
     }
 
+    // 3 - finally when banner's uploaded on the firebase storage, it posts the article form data in the firebase db
     useEffect(async () => {
         if (isBannerUploaded == true) {
             try {

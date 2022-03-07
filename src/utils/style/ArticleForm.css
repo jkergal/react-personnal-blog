@@ -33,6 +33,12 @@
     width: 100%;
 }
 
+.buttons-container {
+    width: 100%;
+    display: flex;
+    justify-content: space-evenly;
+}
+
 /* .markdown-editor {
     width: 100%;
 } */
