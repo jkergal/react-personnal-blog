@@ -13,7 +13,7 @@ export default function app(props) {
     console.log('App component as launched yeahh')
     return (
         <>
-            <NavBarDev loginAdminPath={props.loginAdminPath} />
+            <NavBarDev />
             <Routes>
                 <Route exact path="/" element={<Home />}></Route>
                 <Route path="/article/:articleId" element={<Article />}></Route>

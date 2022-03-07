@@ -5,13 +5,9 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../firebase.config'
 import { UserContext } from '../utils/context/userContext'
 
-export default function NavBarDev(props) {
+export default function NavBarDev() {
     const navigate = useNavigate()
     const { currentUser } = useContext(UserContext)
-
-    const logIn = () => {
-        navigate(props.loginAdminPath)
-    }
 
     const logOut = async () => {
         try {
@@ -25,15 +21,7 @@ export default function NavBarDev(props) {
     }
 
     if (!currentUser) {
-        return (
-            <div>
-                <nav>
-                    <Link to="/">Home / </Link>
-                    <Link to="/article">Article / </Link>
-                    <button onClick={logIn}>LOG IN</button>
-                </nav>
-            </div>
-        )
+        return null
     }
 
     return (
