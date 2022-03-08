@@ -9,6 +9,7 @@ import './WriteArticle.css'
 export default function WriteArticle() {
     const currentDate = new Date()
     const [articleDate, setArticleDate] = useState('')
+    const [isDraft, setIsDraft] = useState()
 
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
@@ -44,11 +45,17 @@ export default function WriteArticle() {
         }
     }
 
+    useEffect(() => {
+        if (isDraft == true || isDraft == false) {
+            console.log('isDraft : ')
+            console.log(isDraft)
+            uploadBanner(banner)
+        } else {
+            return
+        }
+    }, [isDraft])
+
     // 1 - form subimitting start here with the button onClick event
-    const articleSubmitHandler = async (e) => {
-        e.preventDefault()
-        uploadBanner(banner)
-    }
 
     // 2 - then the handler uplaod the file in the firebase storage
     const uploadBanner = (banner) => {
@@ -107,6 +114,8 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Write an article</h1>
             <ArticleForm
+                // setIsFormSubmitted={setIsFormSubmitted}
+                setIsDraft={setIsDraft}
                 isEditionMode={false}
                 submittingType="Post"
                 bannerUploadingLabel="Choose a banner for your article :"
@@ -117,7 +126,6 @@ export default function WriteArticle() {
                 chooseFileHandler={chooseFileHandler}
                 progress={progress}
                 validation={validation}
-                articleSubmitHandler={articleSubmitHandler}
             />
         </div>
     )
