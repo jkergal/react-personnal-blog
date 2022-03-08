@@ -45,6 +45,7 @@ export default function WriteArticle() {
         }
     }
 
+    // 1 - the form submitting starts here
     useEffect(() => {
         if (isDraft == true || isDraft == false) {
             console.log('isDraft : ')
@@ -54,8 +55,6 @@ export default function WriteArticle() {
             return
         }
     }, [isDraft])
-
-    // 1 - form subimitting start here with the button onClick event
 
     // 2 - then the handler uplaod the file in the firebase storage
     const uploadBanner = (banner) => {
@@ -87,23 +86,46 @@ export default function WriteArticle() {
     // 3 - finally when banner's uploaded on the firebase storage, it posts the article form data in the firebase db
     useEffect(async () => {
         if (isBannerUploaded == true) {
-            try {
-                await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
-                    articleText,
-                    bannerUrl,
-                    articleDate,
-                    title
-                })
-                setValidation('Article successfully posted')
-                console.log('Articled successfully posted')
-                setTitle('')
-                setArticleText('')
-                setArticleDate('')
-                setIsBannerUploaded(false)
-                navigate('/')
-            } catch (err) {
-                console.log(err)
-                setValidation('Wopsy, there was an error posting the article')
+            if (isDraft) {
+                try {
+                    await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title
+                    })
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    navigate('/')
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
+            }
+
+            if (isDraft == false) {
+                try {
+                    await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title
+                    })
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    navigate('/')
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
             }
         } else {
             return
