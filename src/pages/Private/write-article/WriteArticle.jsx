@@ -92,7 +92,8 @@ export default function WriteArticle() {
                         articleText,
                         bannerUrl,
                         articleDate,
-                        title
+                        title,
+                        isDraft
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -113,7 +114,8 @@ export default function WriteArticle() {
                         articleText,
                         bannerUrl,
                         articleDate,
-                        title
+                        title,
+                        isDraft
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -139,7 +141,6 @@ export default function WriteArticle() {
                 // setIsFormSubmitted={setIsFormSubmitted}
                 setIsDraft={setIsDraft}
                 isEditionMode={false}
-                submittingType="Post"
                 bannerUploadingLabel="Choose a banner for your article :"
                 setTitle={setTitle}
                 title={title}
