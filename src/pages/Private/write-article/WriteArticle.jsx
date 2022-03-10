@@ -83,7 +83,7 @@ export default function WriteArticle() {
         }
     }
 
-    // 3 - finally when banner's uploaded on the firebase storage, it posts the article form data in the firebase db
+    // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
             if (isDraft) {

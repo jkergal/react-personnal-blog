@@ -16,7 +16,6 @@ export default function WriteArticle() {
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
-    // const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
     const [banner, setBanner] = useState('')
@@ -26,8 +25,6 @@ export default function WriteArticle() {
 
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
-    // const docRefPublic = doc(db, 'articles', `${articleId}`)
-    // const docRefDraft = doc(db, 'drafts', `${articleId}`)
     const publicArticles = useContext(PublicArticlesDataContext)
     const drafts = useContext(DraftsDataContext)
     const allArticles = publicArticles.concat(drafts)
@@ -42,27 +39,6 @@ export default function WriteArticle() {
         location.reload()
     }
 
-    // useEffect(() => {
-    //     let mounted = true
-    //     const fetchData = async () => {
-    //         try {
-    //             const docSnap = await getDoc(docRefPublic)
-
-    //             console.log('response firebase', docSnap)
-
-    //             if (docSnap.exists() && mounted) {
-    //                 console.log('docSnap.data()', docSnap.data())
-    //                 setArticleData(docSnap.data())
-    //             }
-    //         } catch (err) {
-    //             console.error(err)
-    //         }
-    //     }
-
-    //     fetchData()
-    //     return () => (mounted = false)
-    // }, [])
-
     useEffect(async () => {
         const article = await allArticles.find(function (post) {
             if (post.id == articleId) return true
@@ -74,8 +50,6 @@ export default function WriteArticle() {
         setTitle(articleData.title)
         setArticleText(articleData.articleText)
         setArticleDate(articleData.articleDate)
-        // console.log('articleData.isDraft')
-        // console.log(articleData.isDraft)
     }, [articleData])
 
     const chooseFileHandler = async (e) => {
@@ -102,7 +76,7 @@ export default function WriteArticle() {
         }
     }, [isDraft])
 
-    // 2 - then the handler uplaod the file in the firebase storage
+    // 2 - then the handler uplaod the banner in the firebase storage
     const uploadBanner = (banner) => {
         if (!banner) {
             setBannerUrl(defaultBanner)
@@ -129,6 +103,7 @@ export default function WriteArticle() {
         }
     }
 
+    // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
             if (isDraft) {
