@@ -101,7 +101,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    navigate(`/`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -123,7 +123,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
