@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ArticleForm from '../../../components/ArticleForm'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
+import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 
 export default function WriteArticle() {
     const currentDate = new Date()
@@ -22,6 +24,11 @@ export default function WriteArticle() {
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
+
+    const publicArticles = useContext(PublicArticlesDataContext)
+    const drafts = useContext(DraftsDataContext)
+    const allArticles = publicArticles.concat(drafts)
+    const [isArticleExisting, setIsArticleExisting] = useState()
 
     const navigate = useNavigate()
 
@@ -83,9 +90,20 @@ export default function WriteArticle() {
         }
     }
 
+    useEffect(async () => {
+        await allArticles.find(function (post) {
+            if (title == post.title) {
+                setValidation('This article title already exists')
+                setIsArticleExisting(true)
+            } else {
+                setIsArticleExisting(true)
+            }
+        })
+    }, [isBannerUploaded])
+
     // 3 - finally, the article data goes to firestore
     useEffect(async () => {
-        if (isBannerUploaded == true) {
+        if (isBannerUploaded == true && isArticleExisting == false) {
             if (isDraft) {
                 try {
                     await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
@@ -132,7 +150,7 @@ export default function WriteArticle() {
         } else {
             return
         }
-    }, [isBannerUploaded])
+    }, [isArticleExisting])
 
     return (
         <div className="write-articles-page">
