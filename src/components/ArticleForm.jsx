@@ -24,43 +24,40 @@ export default function ArticleForm(props) {
                             }}
                             value={props.title}></input>
                     )}
-
                     <MarkdownEditor
                         setArticleText={props.setArticleText}
                         articleText={props.articleText}
                     />
-
                     <label htmlFor="bannerFile">
                         <b>{props.bannerUploadingLabel}</b>
                     </label>
-
                     <input
                         type="file"
                         accept=".png, .jpg, .jpeg"
                         className="choose-file-handler"
                         onChange={props.chooseFileHandler}></input>
-
                     <p className="upload-progress">Uploading done {props.progress}%</p>
-
                     <p className="validation-login-form">{props.validation}</p>
-
-                    {props.submittingType == 'Save' ? (
-                        <button
-                            onClick={(event) => {
-                                event.preventDefault()
-                                props.setIsDraft(false)
-                            }}>
-                            {props.submittingType}
-                        </button>
-                    ) : (
-                        <div className="buttons-container">
+                    <div className="buttons-container">
+                        {props.isEditionMode ? (
                             <button
                                 onClick={(event) => {
                                     event.preventDefault()
                                     props.setIsDraft(false)
                                 }}>
-                                {props.submittingType}
+                                Post
                             </button>
+                        ) : (
+                            <button
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    props.setIsDraft(false)
+                                }}>
+                                Post
+                            </button>
+                        )}
+                        {props.articleDataIsDraft == true ||
+                        props.articleDataIsDraft == undefined ? (
                             <button
                                 onClick={(event) => {
                                     event.preventDefault()
@@ -68,8 +65,8 @@ export default function ArticleForm(props) {
                                 }}>
                                 Save as draft
                             </button>
-                        </div>
-                    )}
+                        ) : null}
+                    </div>
                 </form>
             </div>
         </>

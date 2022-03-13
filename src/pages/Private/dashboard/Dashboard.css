@@ -18,6 +18,11 @@
     width: 100%;
 } */
 
+.article-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+}
+
 .article-link-wrapper {
     width: 500px;
     display: flex;

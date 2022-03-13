@@ -62,7 +62,7 @@ export default function Dashboard() {
                     {drafts.map((article) => {
                         return (
                             <div key={article.id} className="article-link-wrapper">
-                                <Link to={`/article/${article.id}`}>{article.title}</Link>
+                                <Link to={`/private/draft/${article.id}`}>{article.title}</Link>
                                 <div className="article-buttons-container">
                                     <button
                                         className="delete-article-button"

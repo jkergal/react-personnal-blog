@@ -1,10 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ArticleForm from '../../../components/ArticleForm'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
+import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 
 export default function WriteArticle() {
     const currentDate = new Date()
@@ -22,6 +24,11 @@ export default function WriteArticle() {
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
+
+    const publicArticles = useContext(PublicArticlesDataContext)
+    const drafts = useContext(DraftsDataContext)
+    const allArticles = publicArticles.concat(drafts)
+    const [isArticleExisting, setIsArticleExisting] = useState()
 
     const navigate = useNavigate()
 
@@ -83,16 +90,28 @@ export default function WriteArticle() {
         }
     }
 
-    // 3 - finally when banner's uploaded on the firebase storage, it posts the article form data in the firebase db
     useEffect(async () => {
-        if (isBannerUploaded == true) {
+        await allArticles.find(function (post) {
+            if (title == post.title) {
+                setValidation('This article title already exists')
+                setIsArticleExisting(true)
+            } else {
+                setIsArticleExisting(true)
+            }
+        })
+    }, [isBannerUploaded])
+
+    // 3 - finally, the article data goes to firestore
+    useEffect(async () => {
+        if (isBannerUploaded == true && isArticleExisting == false) {
             if (isDraft) {
                 try {
                     await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
                         articleText,
                         bannerUrl,
                         articleDate,
-                        title
+                        title,
+                        isDraft
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -100,7 +119,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    navigate(`/`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -113,7 +132,8 @@ export default function WriteArticle() {
                         articleText,
                         bannerUrl,
                         articleDate,
-                        title
+                        title,
+                        isDraft
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -121,7 +141,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -130,7 +150,7 @@ export default function WriteArticle() {
         } else {
             return
         }
-    }, [isBannerUploaded])
+    }, [isArticleExisting])
 
     return (
         <div className="write-articles-page">
@@ -139,7 +159,6 @@ export default function WriteArticle() {
                 // setIsFormSubmitted={setIsFormSubmitted}
                 setIsDraft={setIsDraft}
                 isEditionMode={false}
-                submittingType="Post"
                 bannerUploadingLabel="Choose a banner for your article :"
                 setTitle={setTitle}
                 title={title}

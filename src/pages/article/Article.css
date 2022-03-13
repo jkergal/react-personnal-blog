@@ -46,3 +46,39 @@ img {
         max-width: 100%;
     }
 }
+
+.delete-article-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 5px;
+}
+
+.edit-article-button {
+    background-color: #008cba;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 5px;
+}
+
+.delete-article-button:hover {
+    background-color: #f07067;
+    cursor: pointer;
+}
+
+.edit-article-button:hover {
+    background-color: #39b9e3;
+    cursor: pointer;
+}

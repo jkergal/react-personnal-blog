@@ -5,12 +5,18 @@ import './Article.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
 import { PublicArticlesDataContext } from '../../utils/context/publicArticlesDataContext'
+import { doc, deleteDoc } from 'firebase/firestore'
+import { UserContext } from '../../utils/context/userContext'
+import { db } from '../../firebase.config'
+import { useNavigate } from 'react-router-dom'
 
 export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
     const publicArticles = useContext(PublicArticlesDataContext)
+    const { currentUser } = useContext(UserContext)
+    const navigate = useNavigate()
 
     useEffect(async () => {
         const article = await publicArticles.find(function (post) {
@@ -19,6 +25,16 @@ export default function Article() {
         setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
         setArticleData(article)
     }, [])
+
+    const deleteDocHandler = async (articleId) => {
+        await deleteDoc(doc(db, 'articles', articleId))
+        console.log('article deleted')
+        navigate(`/private/dashboard`)
+    }
+
+    const editDocHandler = async (articleId) => {
+        navigate(`/private/edit-article/${articleId}`)
+    }
 
     return (
         <div className="article-container">
@@ -31,6 +47,24 @@ export default function Article() {
                         <ReactMarkdown children={articleData.articleText} />
                     </div>
                 </div>
+                {currentUser ? (
+                    <div className="article-buttons-container">
+                        <button
+                            className="delete-article-button"
+                            onClick={() => {
+                                deleteDocHandler(articleData.id)
+                            }}>
+                            DELETE
+                        </button>
+                        <button
+                            className="edit-article-button"
+                            onClick={() => {
+                                editDocHandler(articleData.id)
+                            }}>
+                            EDIT
+                        </button>
+                    </div>
+                ) : null}
             </div>
         </div>
     )
