@@ -10,18 +10,18 @@ export function PublicArticlesDataProvider(props) {
     const docRef = collection(db, 'articles')
     const [loadingData, setLoadingData] = useState(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getDocs(docRef)
+    const fetchData = async () => {
+        try {
+            const data = await getDocs(docRef)
 
-                setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-                setLoadingData(false)
-            } catch (err) {
-                console.error(err)
-            }
+            setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            setLoadingData(false)
+        } catch (err) {
+            console.error(err)
         }
+    }
 
+    useEffect(() => {
         fetchData()
 
         return publicArticles
