@@ -32,7 +32,8 @@ export default function WriteArticle() {
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
-    const { fetchData } = useContext(FirestoreDataContext)
+    const { fetchPublicArticles } = useContext(FirestoreDataContext)
+    const { fetchDrafts } = useContext(FirestoreDataContext)
 
     const navigate = useNavigate()
 
@@ -124,8 +125,8 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchData()
-                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
+                    await fetchDrafts()
+                    navigate(`/private/draft/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -148,7 +149,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchData()
+                    await fetchPublicArticles()
                     navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
