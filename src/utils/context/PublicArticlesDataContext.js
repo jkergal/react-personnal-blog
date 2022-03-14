@@ -16,6 +16,7 @@ export function PublicArticlesDataProvider(props) {
 
             setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
             setLoadingData(false)
+            console.log('context worked')
         } catch (err) {
             console.error(err)
         }

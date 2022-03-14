@@ -8,7 +8,7 @@ import { PublicArticlesDataContext } from '../../../utils/context/publicArticles
 import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 
 export default function Dashboard() {
-    const publicArticles = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(PublicArticlesDataContext)
     const drafts = useContext(DraftsDataContext)
 
     const navigate = useNavigate()

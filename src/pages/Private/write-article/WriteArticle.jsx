@@ -5,7 +5,6 @@ import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
-// import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
 // import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 
 export default function WriteArticle() {
