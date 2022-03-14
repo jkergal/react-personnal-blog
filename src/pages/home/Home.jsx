@@ -4,7 +4,7 @@ import ArticleCard from '../../components/ArticleCard'
 import { PublicArticlesDataContext } from '../../utils/context/publicArticlesDataContext'
 
 function Home() {
-    const publicArticles = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(PublicArticlesDataContext)
 
     return (
         <div className="home">

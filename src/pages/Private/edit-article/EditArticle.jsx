@@ -25,11 +25,13 @@ export default function WriteArticle() {
 
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
-    const publicArticles = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(PublicArticlesDataContext)
     const drafts = useContext(DraftsDataContext)
     const allArticles = publicArticles.concat(drafts)
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
+
+    const { fetchData } = useContext(PublicArticlesDataContext)
 
     const navigate = useNavigate()
 
@@ -121,7 +123,8 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    await fetchData()
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -144,7 +147,8 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate('/')
+                    await fetchData()
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')

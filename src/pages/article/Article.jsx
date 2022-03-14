@@ -14,7 +14,7 @@ export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    const publicArticles = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(PublicArticlesDataContext)
     const { currentUser } = useContext(UserContext)
     const navigate = useNavigate()
 

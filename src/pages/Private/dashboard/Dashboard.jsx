@@ -8,15 +8,17 @@ import { PublicArticlesDataContext } from '../../../utils/context/publicArticles
 import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 
 export default function Dashboard() {
-    const publicArticles = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(PublicArticlesDataContext)
+    const { fetchData } = useContext(PublicArticlesDataContext)
     const drafts = useContext(DraftsDataContext)
 
     const navigate = useNavigate()
 
-    const deleteDocHandler = async (articleId) => {
-        await deleteDoc(doc(db, 'articles', articleId))
+    const deleteDocHandler = async (articleId, collection) => {
+        await deleteDoc(doc(db, collection, articleId))
         console.log('article deleted')
-        location.reload()
+        await fetchData()
+        navigate(`/private/dashboard`)
     }
 
     const editDocHandler = async (articleId) => {
@@ -38,7 +40,7 @@ export default function Dashboard() {
                                     <button
                                         className="delete-article-button"
                                         onClick={() => {
-                                            deleteDocHandler(article.id)
+                                            deleteDocHandler(article.id, 'articles')
                                         }}>
                                         DELETE
                                     </button>
@@ -67,7 +69,7 @@ export default function Dashboard() {
                                     <button
                                         className="delete-article-button"
                                         onClick={() => {
-                                            deleteDocHandler(article.id)
+                                            deleteDocHandler(article.id, 'drafts')
                                         }}>
                                         DELETE
                                     </button>

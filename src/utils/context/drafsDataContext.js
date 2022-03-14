@@ -10,18 +10,18 @@ export function DraftsDataProvider(props) {
     const docRef = collection(db, 'drafts')
     const [loadingData, setLoadingData] = useState(true)
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getDocs(docRef)
+    const fetchData = async () => {
+        try {
+            const data = await getDocs(docRef)
 
-                setDrafts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-                setLoadingData(false)
-            } catch (err) {
-                console.error(err)
-            }
+            setDrafts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            setLoadingData(false)
+        } catch (err) {
+            console.error(err)
         }
+    }
 
+    useEffect(() => {
         fetchData()
 
         return drafts

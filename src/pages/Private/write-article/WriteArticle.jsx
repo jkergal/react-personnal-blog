@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ArticleForm from '../../../components/ArticleForm'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
@@ -6,6 +6,7 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
 // import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
 
 export default function WriteArticle() {
     const currentDate = new Date()
@@ -23,6 +24,8 @@ export default function WriteArticle() {
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
+
+    const { fetchData } = useContext(PublicArticlesDataContext)
 
     // const publicArticles = useContext(PublicArticlesDataContext)
     // const drafts = useContext(DraftsDataContext)
@@ -118,7 +121,8 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    navigate(`/`)
+                    await fetchData()
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -140,6 +144,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
+                    await fetchData()
                     navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)

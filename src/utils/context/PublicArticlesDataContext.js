@@ -9,8 +9,10 @@ export function PublicArticlesDataProvider(props) {
     const [publicArticles, setPublicArticles] = useState([])
     const docRef = collection(db, 'articles')
     const [loadingData, setLoadingData] = useState(true)
+    // const [needingNewFetch, setNeedingNewFetch] = useState(true)
 
     const fetchData = async () => {
+        // if (needingNewFetch == true) {
         try {
             const data = await getDocs(docRef)
 
@@ -20,6 +22,9 @@ export function PublicArticlesDataProvider(props) {
         } catch (err) {
             console.error(err)
         }
+        // } else {
+        //     return
+        // }
     }
 
     useEffect(() => {
@@ -29,7 +34,7 @@ export function PublicArticlesDataProvider(props) {
     }, [])
 
     return (
-        <PublicArticlesDataContext.Provider value={publicArticles}>
+        <PublicArticlesDataContext.Provider value={{ publicArticles, fetchData }}>
             {!loadingData && props.children}
         </PublicArticlesDataContext.Provider>
     )
