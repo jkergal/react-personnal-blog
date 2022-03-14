@@ -1,10 +1,10 @@
 import './Home.css'
 import React, { useContext } from 'react'
 import ArticleCard from '../../components/ArticleCard'
-import { PublicArticlesDataContext } from '../../utils/context/publicArticlesDataContext'
+import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
 
 function Home() {
-    const { publicArticles } = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(FirestoreDataContext)
 
     return (
         <div className="home">

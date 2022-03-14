@@ -4,20 +4,22 @@ import { doc, deleteDoc } from 'firebase/firestore'
 import { Link } from 'react-router-dom'
 import './Dashboard.css'
 import { useNavigate } from 'react-router-dom'
-import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
-import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+// import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function Dashboard() {
-    const { publicArticles } = useContext(PublicArticlesDataContext)
-    const { fetchData } = useContext(PublicArticlesDataContext)
-    const drafts = useContext(DraftsDataContext)
+    const { publicArticles } = useContext(FirestoreDataContext)
+    const { fetchPublicArticles } = useContext(FirestoreDataContext)
+    const { fetchDrafts } = useContext(FirestoreDataContext)
+    const { drafts } = useContext(FirestoreDataContext)
 
     const navigate = useNavigate()
 
-    const deleteDocHandler = async (articleId, collection) => {
+    const deleteDocHandler = async (articleId, collection, fetchUpdate) => {
         await deleteDoc(doc(db, collection, articleId))
         console.log('article deleted')
-        await fetchData()
+        await fetchUpdate
         navigate(`/private/dashboard`)
     }
 
@@ -40,7 +42,11 @@ export default function Dashboard() {
                                     <button
                                         className="delete-article-button"
                                         onClick={() => {
-                                            deleteDocHandler(article.id, 'articles')
+                                            deleteDocHandler(
+                                                article.id,
+                                                'articles',
+                                                fetchPublicArticles()
+                                            )
                                         }}>
                                         DELETE
                                     </button>
@@ -69,7 +75,7 @@ export default function Dashboard() {
                                     <button
                                         className="delete-article-button"
                                         onClick={() => {
-                                            deleteDocHandler(article.id, 'drafts')
+                                            deleteDocHandler(article.id, 'drafts', fetchDrafts())
                                         }}>
                                         DELETE
                                     </button>

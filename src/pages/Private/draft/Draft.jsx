@@ -4,13 +4,14 @@ import { useState, useEffect, useContext } from 'react'
 import './Draft.css'
 import ReactMarkdown from 'react-markdown'
 import '../../../utils/style/github-markdown-light.css'
-import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    const drafts = useContext(DraftsDataContext)
+    const { drafts } = useContext(FirestoreDataContext)
 
     useEffect(async () => {
         const article = await drafts.find(function (post) {

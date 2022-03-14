@@ -5,8 +5,7 @@ import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
-// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
-import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
     const currentDate = new Date()
@@ -25,7 +24,7 @@ export default function WriteArticle() {
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
-    const { fetchData } = useContext(PublicArticlesDataContext)
+    const { fetchPublicArticles } = useContext(FirestoreDataContext)
 
     // const publicArticles = useContext(PublicArticlesDataContext)
     // const drafts = useContext(DraftsDataContext)
@@ -121,7 +120,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchData()
+                    await fetchPublicArticles()
                     navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)
@@ -144,7 +143,7 @@ export default function WriteArticle() {
                     setArticleText('')
                     setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchData()
+                    await fetchPublicArticles()
                     navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
                 } catch (err) {
                     console.log(err)

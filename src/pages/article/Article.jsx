@@ -4,7 +4,8 @@ import { useState, useEffect, useContext } from 'react'
 import './Article.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
-import { PublicArticlesDataContext } from '../../utils/context/publicArticlesDataContext'
+// import { PublicArticlesDataContext } from '../../utils/context/publicArticlesDataContext'
+import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
 import { doc, deleteDoc } from 'firebase/firestore'
 import { UserContext } from '../../utils/context/userContext'
 import { db } from '../../firebase.config'
@@ -14,7 +15,7 @@ export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    const { publicArticles } = useContext(PublicArticlesDataContext)
+    const { publicArticles } = useContext(FirestoreDataContext)
     const { currentUser } = useContext(UserContext)
     const navigate = useNavigate()
 

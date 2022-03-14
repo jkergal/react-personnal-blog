@@ -6,8 +6,9 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditArticle.css'
-import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
-import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+// import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
     const [articleDate, setArticleDate] = useState('')
@@ -25,13 +26,13 @@ export default function WriteArticle() {
 
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
-    const { publicArticles } = useContext(PublicArticlesDataContext)
-    const drafts = useContext(DraftsDataContext)
+    const { publicArticles } = useContext(FirestoreDataContext)
+    const { drafts } = useContext(FirestoreDataContext)
     const allArticles = publicArticles.concat(drafts)
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
-    const { fetchData } = useContext(PublicArticlesDataContext)
+    const { fetchData } = useContext(FirestoreDataContext)
 
     const navigate = useNavigate()
 
