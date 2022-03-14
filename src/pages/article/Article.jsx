@@ -18,14 +18,27 @@ export default function Article() {
     const { publicArticles } = useContext(FirestoreDataContext)
     const { currentUser } = useContext(UserContext)
     const navigate = useNavigate()
+    // const { fetchPublicArticles } = useContext(FirestoreDataContext)
 
     useEffect(async () => {
         const article = await publicArticles.find(function (post) {
             if (post.id == articleId) return true
         })
+        // if (article) {
+        //     console.log(article)
+        // console.log('prout find method')
+        // console.log('publicArticles : ')
+        // console.log(publicArticles)
         setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
         setArticleData(article)
+
+        // }
     }, [])
+
+    // useEffect(() => {
+    //     console.log('publicArticles : ')
+    //     console.log(publicArticles)
+    // }, [articleData])
 
     const deleteDocHandler = async (articleId) => {
         await deleteDoc(doc(db, 'articles', articleId))
