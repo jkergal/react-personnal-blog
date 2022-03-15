@@ -31,7 +31,8 @@ const StyledH3 = styled.h3`
 
 const StyledReadMoreLink = styled(Link)`
     font-family: Bitter Italic Medium;
-    test-decoration: underline;
+    text-decoration: none;
+    color: #e5ba21;
 `
 
 export default function ArticleCard(props) {

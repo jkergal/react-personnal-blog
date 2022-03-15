@@ -1,47 +1,48 @@
 import React from 'react'
-import { doc, getDoc } from 'firebase/firestore'
-import { db } from '../../firebase.config'
 import { useParams } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import './Article.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
+import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
+import { doc, deleteDoc } from 'firebase/firestore'
+import { UserContext } from '../../utils/context/userContext'
+import { db } from '../../firebase.config'
+import { useNavigate } from 'react-router-dom'
 
 export default function Article() {
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
+    const { publicArticles } = useContext(FirestoreDataContext)
+    const { currentUser } = useContext(UserContext)
+    const navigate = useNavigate()
 
-    const docRef = doc(db, 'articles', `${articleId}`)
-
-    useEffect(() => {
-        let mounted = true
-        const fetchData = async () => {
-            try {
-                const docSnap = await getDoc(docRef)
-
-                console.log('response firebase', docSnap)
-
-                if (docSnap.exists() && mounted) {
-                    console.log('docSnap.data()', docSnap.data())
-                    setArticleData(docSnap.data())
-                    setArticleDateString(
-                        new Date(docSnap.data().articleDate.seconds * 1000).toDateString()
-                    )
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-
-        fetchData()
-        return () => (mounted = false)
+    useEffect(async () => {
+        const article = await publicArticles.find(function (post) {
+            if (post.id == articleId) return true
+        })
+        setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
+        setArticleData(article)
     }, [])
+
+    const deleteDocHandler = async (articleId) => {
+        await deleteDoc(doc(db, 'articles', articleId))
+        console.log('article deleted')
+        navigate(`/private/dashboard`)
+    }
+
+    const editDocHandler = async (articleId) => {
+        navigate(`/private/edit-article/${articleId}`)
+    }
 
     return (
         <div className="article-container">
             <div className="article-wrapper">
-                <img src={articleData.bannerUrl}></img>
+                <div className="banner-wrapper">
+                    <img src={articleData.bannerUrl}></img>
+                </div>
+
                 <h1>{articleData.title}</h1>
                 <h3>{articleDateString}</h3>
                 <div className="article-paragraphs">
@@ -49,6 +50,24 @@ export default function Article() {
                         <ReactMarkdown children={articleData.articleText} />
                     </div>
                 </div>
+                {currentUser ? (
+                    <div className="article-buttons-container">
+                        <button
+                            className="delete-article-button"
+                            onClick={() => {
+                                deleteDocHandler(articleData.id)
+                            }}>
+                            DELETE
+                        </button>
+                        <button
+                            className="edit-article-button"
+                            onClick={() => {
+                                editDocHandler(articleData.id)
+                            }}>
+                            EDIT
+                        </button>
+                    </div>
+                ) : null}
             </div>
         </div>
     )

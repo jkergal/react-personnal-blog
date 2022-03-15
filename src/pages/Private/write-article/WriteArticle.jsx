@@ -1,19 +1,20 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ArticleForm from '../../../components/ArticleForm'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
     const currentDate = new Date()
     const [articleDate, setArticleDate] = useState('')
+    const [isDraft, setIsDraft] = useState()
 
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
-    // const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
     const [banner, setBanner] = useState('')
@@ -23,13 +24,23 @@ export default function WriteArticle() {
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
+    const { fetchPublicArticles } = useContext(FirestoreDataContext)
+    const { fetchDrafts } = useContext(FirestoreDataContext)
+
+    // const publicArticles = useContext(PublicArticlesDataContext)
+    // const drafts = useContext(DraftsDataContext)
+    // const allArticles = publicArticles.concat(drafts)
+    // const [isArticleExisting, setIsArticleExisting] = useState()
+
     const navigate = useNavigate()
 
+    // save date in the state at first render of the page
     useEffect(() => {
         setArticleDate(currentDate)
         console.log(currentDate)
     }, [])
 
+    // save chosen file in the state
     const chooseFileHandler = async (e) => {
         e.preventDefault()
         console.log(e.target.files[0])
@@ -43,11 +54,18 @@ export default function WriteArticle() {
         }
     }
 
-    const articleSubmitHandler = async (e) => {
-        e.preventDefault()
-        uploadBanner(banner)
-    }
+    // 1 - the form submitting starts here
+    useEffect(() => {
+        if (isDraft == true || isDraft == false) {
+            console.log('isDraft : ')
+            console.log(isDraft)
+            uploadBanner(banner)
+        } else {
+            return
+        }
+    }, [isDraft])
 
+    // 2 - then the handler uplaod the file in the firebase storage
     const uploadBanner = (banner) => {
         if (!banner) {
             setBannerUrl(defaultBanner)
@@ -74,25 +92,64 @@ export default function WriteArticle() {
         }
     }
 
+    // useEffect(async () => {
+    //     await allArticles.find(function (post) {
+    //         if (title == post.title) {
+    //             setValidation('This article title already exists')
+    //             setIsArticleExisting(true)
+    //         } else {
+    //             setIsArticleExisting(true)
+    //         }
+    //     })
+    // }, [isBannerUploaded])
+
+    // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
-            try {
-                await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
-                    articleText,
-                    bannerUrl,
-                    articleDate,
-                    title
-                })
-                setValidation('Article successfully posted')
-                console.log('Articled successfully posted')
-                setTitle('')
-                setArticleText('')
-                setArticleDate('')
-                setIsBannerUploaded(false)
-                navigate('/')
-            } catch (err) {
-                console.log(err)
-                setValidation('Wopsy, there was an error posting the article')
+            if (isDraft) {
+                try {
+                    await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title,
+                        isDraft
+                    })
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    await fetchDrafts()
+                    navigate(`/private/draft/${title.toLowerCase().replaceAll(' ', '-')}`)
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
+            }
+
+            if (isDraft == false) {
+                try {
+                    await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title,
+                        isDraft
+                    })
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    await fetchPublicArticles()
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
             }
         } else {
             return
@@ -103,8 +160,9 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Write an article</h1>
             <ArticleForm
+                // setIsFormSubmitted={setIsFormSubmitted}
+                setIsDraft={setIsDraft}
                 isEditionMode={false}
-                submittingType="Post"
                 bannerUploadingLabel="Choose a banner for your article :"
                 setTitle={setTitle}
                 title={title}
@@ -113,7 +171,6 @@ export default function WriteArticle() {
                 chooseFileHandler={chooseFileHandler}
                 progress={progress}
                 validation={validation}
-                articleSubmitHandler={articleSubmitHandler}
             />
         </div>
     )

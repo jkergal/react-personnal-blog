@@ -8,11 +8,20 @@
     justify-content: center; */
     width: 500px;
     /* align-items: center; */
+    background-color: white;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 15px;
 }
 
 /* a {
     width: 100%;
 } */
+
+.article-buttons-container {
+    display: flex;
+    justify-content: flex-end;
+}
 
 .article-link-wrapper {
     width: 500px;
@@ -23,7 +32,7 @@
 }
 
 .delete-article-button {
-    background-color: #f44336;
+    background-color: #9e251c;
     border: none;
     color: white;
     padding: 5px;

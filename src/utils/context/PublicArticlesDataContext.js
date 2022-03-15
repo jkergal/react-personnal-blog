@@ -9,32 +9,32 @@ export function PublicArticlesDataProvider(props) {
     const [publicArticles, setPublicArticles] = useState([])
     const docRef = collection(db, 'articles')
     const [loadingData, setLoadingData] = useState(true)
+    // const [needingNewFetch, setNeedingNewFetch] = useState(true)
+
+    const fetchData = async () => {
+        // if (needingNewFetch == true) {
+        try {
+            const data = await getDocs(docRef)
+
+            setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
+            setLoadingData(false)
+            console.log('context worked')
+        } catch (err) {
+            console.error(err)
+        }
+        // } else {
+        //     return
+        // }
+    }
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const data = await getDocs(docRef)
-
-                setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-                setLoadingData(false)
-                console.log('response firebase', data)
-            } catch (err) {
-                console.error(err)
-            }
-        }
-
         fetchData()
 
         return publicArticles
     }, [])
 
-    useEffect(() => {
-        console.log('public articles :')
-        console.log(publicArticles)
-    }, [publicArticles])
-
     return (
-        <PublicArticlesDataContext.Provider value={publicArticles}>
+        <PublicArticlesDataContext.Provider value={{ publicArticles, fetchData }}>
             {!loadingData && props.children}
         </PublicArticlesDataContext.Provider>
     )

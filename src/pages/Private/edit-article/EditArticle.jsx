@@ -1,19 +1,22 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import ArticleForm from '../../../components/ArticleForm'
-import { doc, setDoc, getDoc } from 'firebase/firestore'
+import { doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditArticle.css'
+// import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
+// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
     const [articleDate, setArticleDate] = useState('')
+    const [isDraft, setIsDraft] = useState()
 
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
-    // const articlesCollectionRef = collection(db, 'articles')
     const [validation, setValidation] = useState('')
 
     const [banner, setBanner] = useState('')
@@ -23,29 +26,28 @@ export default function WriteArticle() {
 
     const { articleId } = useParams('')
     const [articleData, setArticleData] = useState({})
-    const docRef = doc(db, 'articles', `${articleId}`)
+    const { publicArticles } = useContext(FirestoreDataContext)
+    const { drafts } = useContext(FirestoreDataContext)
+    const allArticles = publicArticles.concat(drafts)
+
+    const defaultBanner = 'https://jker.fr/defaultbanner'
+
+    const { fetchPublicArticles } = useContext(FirestoreDataContext)
+    const { fetchDrafts } = useContext(FirestoreDataContext)
 
     const navigate = useNavigate()
 
-    useEffect(() => {
-        let mounted = true
-        const fetchData = async () => {
-            try {
-                const docSnap = await getDoc(docRef)
+    const deleteDraft = async (articleId) => {
+        await deleteDoc(doc(db, 'drafts', articleId))
+        console.log('article deleted')
+        location.reload()
+    }
 
-                console.log('response firebase', docSnap)
-
-                if (docSnap.exists() && mounted) {
-                    console.log('docSnap.data()', docSnap.data())
-                    setArticleData(docSnap.data())
-                }
-            } catch (err) {
-                console.error(err)
-            }
-        }
-
-        fetchData()
-        return () => (mounted = false)
+    useEffect(async () => {
+        const article = await allArticles.find(function (post) {
+            if (post.id == articleId) return true
+        })
+        setArticleData(article)
     }, [])
 
     useEffect(() => {
@@ -67,14 +69,21 @@ export default function WriteArticle() {
         }
     }
 
-    const articleSubmitHandler = async (e) => {
-        e.preventDefault()
-        uploadBanner(banner)
-    }
+    // 1 - the form submitting starts here
+    useEffect(() => {
+        if (isDraft == true || isDraft == false) {
+            console.log('isDraft : ')
+            console.log(isDraft)
+            uploadBanner(banner)
+        } else {
+            return
+        }
+    }, [isDraft])
 
+    // 2 - then the handler uplaod the banner in the firebase storage
     const uploadBanner = (banner) => {
         if (!banner) {
-            setBannerUrl(articleData.bannerUrl)
+            setBannerUrl(defaultBanner)
             setIsBannerUploaded(true)
         } else {
             const sotrageRef = ref(storage, `banners/${banner.name}`)
@@ -98,24 +107,54 @@ export default function WriteArticle() {
         }
     }
 
+    // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
-            try {
-                await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
-                    articleText,
-                    bannerUrl,
-                    articleDate,
-                    title
-                })
-                setValidation('Article successfully posted')
-                console.log('Articled successfully posted')
-                setTitle('')
-                setArticleText('')
-                setIsBannerUploaded(false)
-                navigate('/')
-            } catch (err) {
-                console.log(err)
-                setValidation('Wopsy, there was an error posting the article')
+            if (isDraft) {
+                try {
+                    await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title,
+                        isDraft
+                    })
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    await fetchDrafts()
+                    navigate(`/private/draft/${title.toLowerCase().replaceAll(' ', '-')}`)
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
+            }
+
+            if (isDraft == false) {
+                try {
+                    await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title,
+                        isDraft
+                    })
+                    deleteDraft(articleId)
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setTitle('')
+                    setArticleText('')
+                    setArticleDate('')
+                    setIsBannerUploaded(false)
+                    await fetchPublicArticles()
+                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
             }
         } else {
             return
@@ -126,8 +165,9 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Edit your article</h1>
             <ArticleForm
+                setIsDraft={setIsDraft}
+                articleDataIsDraft={articleData.isDraft}
                 isEditionMode={true}
-                submittingType="Save"
                 bannerUploadingLabel="Change your article banner :"
                 setTitle={setTitle}
                 title={title}
@@ -136,7 +176,6 @@ export default function WriteArticle() {
                 chooseFileHandler={chooseFileHandler}
                 progress={progress}
                 validation={validation}
-                articleSubmitHandler={articleSubmitHandler}
             />
         </div>
     )

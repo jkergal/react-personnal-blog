@@ -10,13 +10,21 @@
     padding: 25px;
 }
 
+/* .banner-wrapper {
+    background-color: #f44336;
+    position: relative;
+    top: 0px;
+} */
+
 img {
-    max-width: 100%;
+    width: 100%;
     height: auto;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
 }
 
 .article-wrapper {
-    padding: 25px;
+    padding: 0px;
     /* margin: 25px; */
     max-width: 60%;
     border-radius: 10px;
@@ -25,6 +33,7 @@ img {
 
 .article-paragraphs {
     text-align: justify;
+    padding: 25px;
 }
 
 .markdown-body > pre {
@@ -33,10 +42,10 @@ img {
 }
 
 @media only screen and (max-width: 768px) {
-    img {
+    /* img {
         max-width: 90%;
         height: auto;
-    }
+    } */
     .markdown-body > pre {
         max-width: 90%;
         margin: auto;
@@ -45,4 +54,44 @@ img {
     .article-wrapper {
         max-width: 100%;
     }
+}
+
+.article-buttons-container {
+    margin: 20px;
+}
+
+.delete-article-button {
+    background-color: #f44336;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 5px;
+}
+
+.edit-article-button {
+    background-color: #008cba;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 10px;
+    border-radius: 5px;
+}
+
+.delete-article-button:hover {
+    background-color: #f07067;
+    cursor: pointer;
+}
+
+.edit-article-button:hover {
+    background-color: #39b9e3;
+    cursor: pointer;
 }
