@@ -17,7 +17,6 @@ export function FirestoreDataProvider(props) {
             const data = await getDocs(publicDocRef)
 
             setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            setLoadingData(false)
             console.log('context public worked')
         } catch (err) {
             console.error(err)
@@ -29,24 +28,24 @@ export function FirestoreDataProvider(props) {
             const data = await getDocs(draftDocRef)
 
             setDrafts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            setLoadingData(false)
             console.log('context draft worked')
         } catch (err) {
             console.error(err)
         }
     }
+    useEffect(async () => {
+        await fetchPublicArticles()
 
-    useEffect(() => {
-        fetchDrafts()
-        console.log('useEffect context draft worked')
-        return drafts
-    }, [])
-
-    useEffect(() => {
-        fetchPublicArticles()
-        console.log('useEffect context public worked')
+        console.log('useEffect context public & draft worked')
         return publicArticles
     }, [])
+
+    useEffect(async () => {
+        await fetchDrafts()
+        setLoadingData(false)
+        console.log('useEffect context  draft worked')
+        return drafts
+    }, [publicArticles])
 
     return (
         <FirestoreDataContext.Provider
