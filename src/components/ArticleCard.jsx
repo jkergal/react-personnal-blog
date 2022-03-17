@@ -25,12 +25,12 @@ const StyledArticleInfosContainer = styled.div`
     align-items: flex-end;
 `
 
-const StyledH3 = styled.h3`
-    font-family: Bitter Italic Semibold;
-`
+// const StyledH3 = styled.h3`
+//     font-family: Bitter Italic Semibold;
+// `
 
 const StyledReadMoreLink = styled(Link)`
-    font-family: Bitter Italic Medium;
+    // font-family: Bitter Italic Medium;
     text-decoration: none;
     color: #e5ba21;
 `
@@ -44,7 +44,7 @@ export default function ArticleCard(props) {
         <StyledArticleCardContainer bannerUrl={props.url}>
             <StyledArticleInfosContainer>
                 <StyledReadMoreLink to={articleLink}>
-                    <StyledH3>{props.title}</StyledH3>
+                    <h2>{props.title}</h2>
                 </StyledReadMoreLink>
             </StyledArticleInfosContainer>
         </StyledArticleCardContainer>

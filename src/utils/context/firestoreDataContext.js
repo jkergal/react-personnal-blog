@@ -36,14 +36,14 @@ export function FirestoreDataProvider(props) {
     useEffect(async () => {
         await fetchPublicArticles()
 
-        console.log('useEffect context public & draft worked')
+        console.log('useEffect context public worked')
         return publicArticles
     }, [])
 
     useEffect(async () => {
         await fetchDrafts()
         setLoadingData(false)
-        console.log('useEffect context  draft worked')
+        console.log('useEffect context draft worked')
         return drafts
     }, [publicArticles])
 

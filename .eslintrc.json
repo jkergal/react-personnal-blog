@@ -15,6 +15,7 @@
     },
     "plugins": ["react", "prettier"],
     "rules": {
+        "no-useless-escape": "off",
         "react/react-in-jsx-scope": "off",
         "react/prop-types": "off",
         "react/no-children-prop": "off",
