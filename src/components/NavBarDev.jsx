@@ -4,6 +4,7 @@ import { signOut } from 'firebase/auth'
 import { useNavigate } from 'react-router-dom'
 import { auth } from '../firebase.config'
 import { UserContext } from '../utils/context/userContext'
+import '../utils/style/Navbar.css'
 
 export default function NavBarDev() {
     const navigate = useNavigate()
@@ -25,7 +26,7 @@ export default function NavBarDev() {
     }
 
     return (
-        <div>
+        <div className="navbar-wrapper">
             <nav>
                 <Link to="/">Home / </Link>
                 <Link to="/private/dashboard">Dashboard / </Link>

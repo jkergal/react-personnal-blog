@@ -14,21 +14,28 @@ export default function app(props) {
     console.log('App component as launched yeahh')
     return (
         <>
-            <NavBarDev />
-            <Routes>
-                <Route exact path="/" element={<Home />}></Route>
-                <Route path="/article/:articleId" element={<Article />}></Route>
+            <div className="main-grid">
+                <div className="navbar-container">
+                    <NavBarDev className="navbar-container" />
+                </div>
 
-                <Route path={props.loginAdminPath} element={<Login />}></Route>
-                <Route path="/private" element={<Private />}>
-                    <Route path="/private/dashboard" element={<Dashboard />}></Route>
-                    <Route path="/private/draft/:articleId" element={<Draft />}></Route>
-                    <Route
-                        path="/private/edit-article/:articleId"
-                        element={<EditArticle />}></Route>
-                    <Route path="/private/write-article" element={<WriteArticle />}></Route>
-                </Route>
-            </Routes>
+                <div className="content-container">
+                    <Routes>
+                        <Route exact path="/" element={<Home />}></Route>
+                        <Route path="/article/:articleId" element={<Article />}></Route>
+
+                        <Route path={props.loginAdminPath} element={<Login />}></Route>
+                        <Route path="/private" element={<Private />}>
+                            <Route path="/private/dashboard" element={<Dashboard />}></Route>
+                            <Route path="/private/draft/:articleId" element={<Draft />}></Route>
+                            <Route
+                                path="/private/edit-article/:articleId"
+                                element={<EditArticle />}></Route>
+                            <Route path="/private/write-article" element={<WriteArticle />}></Route>
+                        </Route>
+                    </Routes>
+                </div>
+            </div>
         </>
     )
 }
