@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../firebase.config'
 import { UserContext } from '../utils/context/userContext'
 import '../utils/style/Navbar.css'
+import logo from '../assets/images/logo-jk.png'
 
 export default function NavBarDev() {
     const navigate = useNavigate()
@@ -26,13 +27,16 @@ export default function NavBarDev() {
     }
 
     return (
-        <div className="navbar-wrapper">
-            <nav>
-                <Link to="/">Home / </Link>
-                <Link to="/private/dashboard">Dashboard / </Link>
-                <Link to="/private/write-article">Write Article / </Link>
-                <button onClick={logOut}>LOG OUT</button>
-            </nav>
-        </div>
+        <>
+            <img src={logo} alt="logo"></img>
+            <div className="navbar-wrapper">
+                <nav>
+                    <Link to="/">Home / </Link>
+                    <Link to="/private/dashboard">Dashboard / </Link>
+                    <Link to="/private/write-article">Write Article / </Link>
+                    <button onClick={logOut}>LOG OUT</button>
+                </nav>
+            </div>
+        </>
     )
 }
