@@ -2,7 +2,7 @@ import Home from './pages/home/Home'
 import Login from './pages/login/Login'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import NavBarDev from './components/NavBarDev'
+import Navbar from './components/Navbar'
 import Private from './pages/Private/Private'
 import Dashboard from './pages/Private/dashboard/Dashboard'
 import WriteArticle from './pages/Private/write-article/WriteArticle'
@@ -16,7 +16,7 @@ export default function app(props) {
         <>
             <div className="main-grid">
                 <div className="navbar-container">
-                    <NavBarDev className="navbar-container" />
+                    <Navbar className="navbar-container" />
                 </div>
 
                 <div className="content-container">
