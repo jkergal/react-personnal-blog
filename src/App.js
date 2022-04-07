@@ -9,6 +9,8 @@ import WriteArticle from './pages/Private/write-article/WriteArticle'
 import Article from './pages/article/Article'
 import Draft from './pages/Private/draft/Draft'
 import EditArticle from './pages/Private/edit-article/EditArticle'
+import BloggerCard from './components/BloggerCard'
+import Header from './components/Header'
 
 export default function app(props) {
     console.log('App component as launched yeahh')
@@ -16,7 +18,10 @@ export default function app(props) {
         <>
             <div className="main-grid">
                 <div className="navbar-container">
-                    <Navbar className="navbar-container" />
+                    <Navbar />
+                </div>
+                <div className="header-container">
+                    <Header pageTitle="Latest articles" />
                 </div>
 
                 <div className="content-container">
@@ -34,6 +39,10 @@ export default function app(props) {
                             <Route path="/private/write-article" element={<WriteArticle />}></Route>
                         </Route>
                     </Routes>
+                </div>
+
+                <div className="blogger-card-container">
+                    <BloggerCard />
                 </div>
             </div>
         </>

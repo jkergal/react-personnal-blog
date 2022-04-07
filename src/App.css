@@ -201,17 +201,47 @@ p {
     width: 100vw;
     height: 100vh;
     display: grid;
-    grid-template-columns: 100px 1fr;
-    grid-template-rows: 100%;
+    grid-template-columns: 100px 1fr 300px;
+    grid-template-rows: 100px 1fr;
     /* grid-gap: 30px; */
 }
 
-.content-container {
-    overflow: scroll;
+.header-container {
+    grid-column: 2 / 3;
+    grid-row: 1 / 2;
 }
 
+.content-container {
+    grid-column: 2 / 3;
+    grid-row: 2;
+
+    overflow: scroll;
+    /* overflow: hidden; */
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+.content-container::-webkit-scrollbar {
+    display: none;
+  }
+
 .navbar-container {
+    grid-column: 1;
+    grid-row: 1 / -1;
+
     border-right: #2a2b2a solid 1px;
+    /* background: orange; */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.blogger-card-container {
+    grid-column: 3;
+    grid-row: 1 / -1;
+
+    border-left: #2a2b2a solid 1px;
     /* background: orange; */
     display: flex;
     flex-direction: column;
