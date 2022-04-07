@@ -5,7 +5,12 @@ import { useNavigate } from 'react-router-dom'
 import { auth } from '../firebase.config'
 import { UserContext } from '../utils/context/userContext'
 import '../utils/style/Navbar.css'
-import logo from '../assets/images/logo-jk.png'
+import logo from '../assets/images/logo-jk.svg'
+import homeIcon from '../assets/icons/home.svg'
+import emailIcon from '../assets/icons/email.svg'
+import writeIcon from '../assets/icons/write.svg'
+import settingsIcon from '../assets/icons/settings.svg'
+import logOutIcon from '../assets/icons/logout.svg'
 
 export default function NavBarDev() {
     const navigate = useNavigate()
@@ -28,13 +33,26 @@ export default function NavBarDev() {
 
     return (
         <>
-            <img src={logo} alt="logo"></img>
+            <div className="logo-blog-wrapper">
+                <img src={logo} alt="logo" className="logo-blog"></img>
+            </div>
             <div className="navbar-wrapper">
                 <nav>
-                    <Link to="/">Home / </Link>
-                    <Link to="/private/dashboard">Dashboard / </Link>
-                    <Link to="/private/write-article">Write Article / </Link>
-                    <button onClick={logOut}>LOG OUT</button>
+                    <Link to="/">
+                        <img src={homeIcon} alt="Home icon navbar" />
+                    </Link>
+                    <Link to="/">
+                        <img src={emailIcon} alt="Email icon navbar" />
+                    </Link>
+                    <Link to="/private/write-article">
+                        <img src={writeIcon} alt="Write icon navbar" />
+                    </Link>
+                    <Link to="/private/dashboard">
+                        <img src={settingsIcon} alt="Settings icon navbar" />
+                    </Link>
+                    <a href="#" onClick={logOut}>
+                        <img src={logOutIcon} alt="Log out icon navbar" />
+                    </a>
                 </nav>
             </div>
         </>
