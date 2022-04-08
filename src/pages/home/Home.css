@@ -11,9 +11,9 @@
 
 .articles-grid {
     /* margin: 100px; */
-    width: 85%;
+    width: 100%;
     display: grid;
-    grid-template-columns: 50% 50%;
+    grid-template-columns: 100%;
     grid-gap: 30px;
 }
 
