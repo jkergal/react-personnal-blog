@@ -38,21 +38,39 @@ export default function NavBarDev() {
             </div>
             <div className="navbar-wrapper">
                 <nav>
-                    <Link to="/">
-                        <img src={homeIcon} alt="Home icon navbar" />
-                    </Link>
-                    <Link to="/">
-                        <img src={emailIcon} alt="Email icon navbar" />
-                    </Link>
-                    <Link to="/private/write-article">
-                        <img src={writeIcon} alt="Write icon navbar" />
-                    </Link>
-                    <Link to="/private/dashboard">
-                        <img src={settingsIcon} alt="Settings icon navbar" />
-                    </Link>
-                    <a href="#" onClick={logOut}>
-                        <img src={logOutIcon} alt="Log out icon navbar" />
-                    </a>
+                    <div className="logo-wrapper">
+                        <Link to="/">
+                            <img src={homeIcon} alt="Home icon navbar" className="navbar-logo" />
+                        </Link>
+                    </div>
+                    <div className="logo-wrapper">
+                        <Link to="/">
+                            <img src={emailIcon} alt="Email icon navbar" className="navbar-logo" />
+                        </Link>
+                    </div>
+                    <div className="logo-wrapper">
+                        <Link to="/private/write-article">
+                            <img src={writeIcon} alt="Write icon navbar" className="navbar-logo" />
+                        </Link>
+                    </div>
+                    <div className="logo-wrapper">
+                        <Link to="/private/dashboard">
+                            <img
+                                src={settingsIcon}
+                                alt="Settings icon navbar"
+                                className="navbar-logo"
+                            />
+                        </Link>
+                    </div>
+                    <div className="logo-wrapper">
+                        <a href="#" onClick={logOut}>
+                            <img
+                                src={logOutIcon}
+                                alt="Log out icon navbar"
+                                className="navbar-logo"
+                            />
+                        </a>
+                    </div>
                 </nav>
             </div>
         </>
