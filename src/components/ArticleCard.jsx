@@ -1,52 +1,45 @@
 import React from 'react'
 import '../utils/style/ArticleCard.css'
-import styled from 'styled-components'
 import { Link } from 'react-router-dom'
-
-const StyledArticleCardContainer = styled.div`
-    height: 250px;
-    width: 550px;
-    background-image: ${(props) => `url(${props.bannerUrl})`};
-    background-size: cover;
-    display: flex;
-    justify-content: center;
-    margin: 20px;
-    border-radius: 10px;
-`
-
-const StyledArticleInfosContainer = styled.div`
-    height: 250px;
-    width: 550px;
-    background: linear-gradient(rgba(0, 0, 0, 0), rgba(0, 0, 0, 1));
-    color: #e5ba21;
-    border-radius: 10px;
-    display: flex;
-    justify-content: center;
-    align-items: flex-end;
-`
-
-const StyledH3 = styled.h3`
-    font-family: Bitter Italic Semibold;
-`
-
-const StyledReadMoreLink = styled(Link)`
-    font-family: Bitter Italic Medium;
-    text-decoration: none;
-    color: #e5ba21;
-`
 
 export default function ArticleCard(props) {
     const articleLink = `/article/${props.id}`
+    const articleText = `${props.text}`
+    // const nowWords = []
 
-    // const [articleData, set ArticleData] =
+    // function shortenText(string, nowWords) {
+    function truncate(str, no_words) {
+        return str.split(' ').splice(0, no_words).join(' ')
+    }
+
+    const shortenArticleText = truncate(articleText, 44)
+
+    // console.log(articleText)
 
     return (
-        <StyledArticleCardContainer bannerUrl={props.url}>
-            <StyledArticleInfosContainer>
-                <StyledReadMoreLink to={articleLink}>
-                    <StyledH3>{props.title}</StyledH3>
-                </StyledReadMoreLink>
-            </StyledArticleInfosContainer>
-        </StyledArticleCardContainer>
+        <div className="article-card-container">
+            <Link to={articleLink} className="article-card-wrapper">
+                <div className="article-banner-preview">
+                    <img src={props.url} alt="" />
+                </div>
+                <div className="article-infos-container">
+                    <h2 className="article-title">Journal d’un apprenti dev # 1 : présentation</h2>
+                    <div className="article-preview-wrapper">
+                        <p className="article-preview">{shortenArticleText} [...]</p>
+                    </div>
+                    <div className="article-meta-wrapper">
+                        <div className="article-date little-text-bold">
+                            {new Date(props.date.seconds * 1000).toDateString()}
+                        </div>
+                        <div className="article-tags-container">
+                            <div className="tag-wrapper little-text-italic-bold">development</div>
+                            <div className="tag-wrapper little-text-italic-bold">learning</div>
+                            <div className="tag-wrapper little-text-italic-bold">story</div>
+                        </div>
+                    </div>
+                </div>
+            </Link>
+            <div className="divider-line"></div>
+        </div>
     )
 }

@@ -1,0 +1,10 @@
+.blogger-photo {
+    height: 97px;
+    width: 97px;
+}
+
+.blogger-card-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

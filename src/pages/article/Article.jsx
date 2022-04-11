@@ -40,7 +40,7 @@ export default function Article() {
         <div className="article-container">
             <div className="article-wrapper">
                 <div className="banner-wrapper">
-                    <img src={articleData.bannerUrl}></img>
+                    <img src={articleData.bannerUrl} className="banner-article"></img>
                 </div>
 
                 <h1>{articleData.title}</h1>

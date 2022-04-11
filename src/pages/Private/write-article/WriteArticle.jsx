@@ -34,6 +34,15 @@ export default function WriteArticle() {
 
     const navigate = useNavigate()
 
+    const deleteSpecialCharacters = (string) => {
+        return string
+            .toLowerCase()
+            .replaceAll(' ', '-')
+            .replaceAll('’', '-')
+            .replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '')
+            .replaceAll('--', '-')
+    }
+
     // save date in the state at first render of the page
     useEffect(() => {
         setArticleDate(currentDate)
@@ -108,7 +117,7 @@ export default function WriteArticle() {
         if (isBannerUploaded == true) {
             if (isDraft) {
                 try {
-                    await setDoc(doc(db, 'drafts', title.toLowerCase().replaceAll(' ', '-')), {
+                    await setDoc(doc(db, 'drafts', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
@@ -122,7 +131,7 @@ export default function WriteArticle() {
                     setArticleDate('')
                     setIsBannerUploaded(false)
                     await fetchDrafts()
-                    navigate(`/private/draft/${title.toLowerCase().replaceAll(' ', '-')}`)
+                    navigate(`/private/draft/${deleteSpecialCharacters(title)}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -131,7 +140,7 @@ export default function WriteArticle() {
 
             if (isDraft == false) {
                 try {
-                    await setDoc(doc(db, 'articles', title.toLowerCase().replaceAll(' ', '-')), {
+                    await setDoc(doc(db, 'articles', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
@@ -145,7 +154,7 @@ export default function WriteArticle() {
                     setArticleDate('')
                     setIsBannerUploaded(false)
                     await fetchPublicArticles()
-                    navigate(`/article/${title.toLowerCase().replaceAll(' ', '-')}`)
+                    navigate(`/article/${deleteSpecialCharacters(title)}`)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
