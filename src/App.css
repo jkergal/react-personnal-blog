@@ -172,26 +172,36 @@ code {
 h1 {
     font-family: merriweatherblack_italic;
     font-size: 48px;
+    color: #2A2B2A;
 }
 
 h2 {
     font-family: merriweatherblack;
     font-size: 36px;
+    color: #2A2B2A;
 }
 
 p {
-    font-family: merriweatherblack;
+    font-family: bitterregular;
     font-size: 18px;
+    color: #2A2B2A;
 }
 
 .normalText {
     font-family: merriweatherblack;
     font-size: 18px;
+    color: #2A2B2A;
 }
 
-.littleTextBold {
+.little-text-bold {
     font-family: bittermedium-italic;
     font-size: 14px;
+    color: #2A2B2A;
+}
+
+.little-text-italic-bold {
+    font-family: 'bittersemibold-italic';
+    font-size: 13px;
 }
 
 
