@@ -1,20 +1,19 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
+// import { useParams } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
-import './Article.css'
+import './ArticlePage.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
-import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
 import { doc, deleteDoc } from 'firebase/firestore'
 import { UserContext } from '../../utils/context/userContext'
 import { db } from '../../firebase.config'
 import { useNavigate } from 'react-router-dom'
 
-export default function Article() {
-    const { articleId } = useParams('')
+export default function Article(props) {
+    const publicArticles = props.publicArticles
+    const articleId = props.articleId
     const [articleData, setArticleData] = useState({})
     const [articleDateString, setArticleDateString] = useState('')
-    const { publicArticles } = useContext(FirestoreDataContext)
     const { currentUser } = useContext(UserContext)
     const navigate = useNavigate()
 
