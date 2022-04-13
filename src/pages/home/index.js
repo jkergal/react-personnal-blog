@@ -8,6 +8,7 @@ export default function index() {
     return (
         <Template
             Header={<Header pageTitle="Latest articles" />}
+            headerHeight="100px"
             BloggerCard={<BloggerCard />}
             Page={<Home />}
         />

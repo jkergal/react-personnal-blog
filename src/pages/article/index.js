@@ -2,7 +2,7 @@ import React from 'react'
 import { useContext, useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import Template from '../../components/template/Template'
-import Header from '../../components/header/Header'
+import HeaderArticle from '../../components/headerArticle/HeaderArticle'
 import BloggerCard from '../../components/bloggerCard/BloggerCard'
 import Article from './ArticlePage'
 import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
@@ -25,7 +25,8 @@ export default function index() {
 
     return (
         <Template
-            Header={<Header pageTitle={articleTitle.title} />}
+            Header={<HeaderArticle pageTitle={articleTitle.title} />}
+            headerHeight="220px"
             BloggerCard={<BloggerCard />}
             Page={<Article articleId={articleId} publicArticles={publicArticles} />}
         />

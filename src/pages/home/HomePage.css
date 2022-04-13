@@ -5,19 +5,13 @@
 }
 
 .articles-grid {
-    /* margin: 100px; */
     width: 100%;
     display: grid;
     grid-template-columns: 100%;
-    /* grid-gap: 30px; */
     position: relative;
     top: 80px;
 }
 
-/* .article-card {
-    display: flex;
-    justify-content: center;
-} */
 
 @media only screen and (max-width: 1300px) {
     .articles-grid {
