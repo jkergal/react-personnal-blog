@@ -1,9 +1,13 @@
 .header-article {
     height: 220px;
     width: 100%;
-    border-bottom: solid black 1px;
+    /* background: linear-gradient(180deg, rgba(0,252,239,1) 0%, rgba(249,252,239,0) 100%); */
     display: flex;
     justify-content: center;
     align-items: center;
-    color: #2A2B2A;
+    color: #2a2b2a;
+}
+
+.h1-wrapper {
+    max-width: 1000px;
 }

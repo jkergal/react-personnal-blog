@@ -13,7 +13,7 @@ export default function Article(props) {
     const publicArticles = props.publicArticles
     const articleId = props.articleId
     const [articleData, setArticleData] = useState({})
-    const [articleDateString, setArticleDateString] = useState('')
+    // const [articleDateString, setArticleDateString] = useState('')
     const { currentUser } = useContext(UserContext)
     const navigate = useNavigate()
 
@@ -21,7 +21,7 @@ export default function Article(props) {
         const article = await publicArticles.find(function (post) {
             if (post.id == articleId) return true
         })
-        setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
+        // setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
         setArticleData(article)
     }, [])
 
@@ -42,8 +42,7 @@ export default function Article(props) {
                     <img src={articleData.bannerUrl} className="banner-article"></img>
                 </div>
 
-                <h1>{articleData.title}</h1>
-                <h3>{articleDateString}</h3>
+                {/* <h3>{articleDateString}</h3> */}
                 <div className="article-paragraphs">
                     <div className="markdown-body">
                         <ReactMarkdown children={articleData.articleText} />

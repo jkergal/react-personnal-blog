@@ -162,7 +162,7 @@ body {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     /* text-align: center; */
-    background-color: #f9fcef;
+    background-color: #F9FCEF;
 }
 
 code {
@@ -229,4 +229,6 @@ p {
     grid-column: 2 / 3;
     grid-row: 1 / 2;
     height: 100vh;
+    /* background-color: transparent; */
+    /* background-color: transparent; */
 }

@@ -5,16 +5,12 @@ import { Link } from 'react-router-dom'
 export default function ArticleCard(props) {
     const articleLink = `/article/${props.id}`
     const articleText = `${props.text}`
-    // const nowWords = []
 
-    // function shortenText(string, nowWords) {
     function truncate(str, no_words) {
         return str.split(' ').splice(0, no_words).join(' ')
     }
 
     const shortenArticleText = truncate(articleText, 44)
-
-    // console.log(articleText)
 
     return (
         <div className="article-card-container">
@@ -23,7 +19,7 @@ export default function ArticleCard(props) {
                     <img src={props.url} alt="" />
                 </div>
                 <div className="article-infos-container">
-                    <h2 className="article-title">Journal d’un apprenti dev # 1 : présentation</h2>
+                    <h2 className="article-title">{props.title}</h2>
                     <div className="article-preview-wrapper">
                         <p className="article-preview">{shortenArticleText} [...]</p>
                     </div>
