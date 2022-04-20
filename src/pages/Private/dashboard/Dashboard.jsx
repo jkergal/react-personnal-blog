@@ -7,8 +7,6 @@ import DeleteButton from '../../../components/deleteButton/DeleteButton'
 
 export default function Dashboard() {
     const { publicArticles } = useContext(FirestoreDataContext)
-    const { fetchPublicArticles } = useContext(FirestoreDataContext)
-    const { fetchDrafts } = useContext(FirestoreDataContext)
     const { drafts } = useContext(FirestoreDataContext)
 
     return (
@@ -23,11 +21,7 @@ export default function Dashboard() {
                             <div key={article.id} className="article-link-wrapper">
                                 <Link to={`/article/${article.id}`}>{article.title}</Link>
                                 <div className="article-buttons-container">
-                                    <DeleteButton
-                                        articleId={article.id}
-                                        collection="articles"
-                                        fetchUpdate={fetchPublicArticles}
-                                    />
+                                    <DeleteButton articleId={article.id} collection="articles" />
                                     <EditButton
                                         articleId={article.id}
                                         publicArticles={publicArticles}
@@ -47,11 +41,7 @@ export default function Dashboard() {
                             <div key={article.id} className="article-link-wrapper">
                                 <Link to={`/private/draft/${article.id}`}>{article.title}</Link>
                                 <div className="article-buttons-container">
-                                    <DeleteButton
-                                        articleId={article.id}
-                                        collection="drafts"
-                                        fetchUpdate={fetchDrafts}
-                                    />
+                                    <DeleteButton articleId={article.id} collection="drafts" />
                                     <EditButton
                                         articleId={article.id}
                                         publicArticles={publicArticles}

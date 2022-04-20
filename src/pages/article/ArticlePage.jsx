@@ -34,7 +34,7 @@ export default function Article(props) {
                 </div>
                 {currentUser ? (
                     <div className="article-buttons-container">
-                        <DeleteButton articleId={articleId} />
+                        <DeleteButton articleId={articleId} collection="articles" />
                         <EditButton articleId={articleId} publicArticles={publicArticles} />
                     </div>
                 ) : null}
