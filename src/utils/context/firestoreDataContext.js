@@ -17,7 +17,7 @@ export function FirestoreDataProvider(props) {
             const data = await getDocs(publicDocRef)
 
             setPublicArticles(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            console.log('context public worked')
+            console.log('FETCH UPDATE PUBLIC : context public worked')
         } catch (err) {
             console.error(err)
         }
@@ -28,7 +28,7 @@ export function FirestoreDataProvider(props) {
             const data = await getDocs(draftDocRef)
 
             setDrafts(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-            console.log('context draft worked')
+            console.log('FETCH UPDATE DRAFTS : context draft worked')
         } catch (err) {
             console.error(err)
         }

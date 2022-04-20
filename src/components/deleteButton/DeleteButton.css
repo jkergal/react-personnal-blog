@@ -1,0 +1,19 @@
+.delete-article-button {
+    background-color: #9E2B25;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 50%;
+}
+
+.delete-article-button:hover {
+    background-color: #9b5754;
+    cursor: pointer;
+}

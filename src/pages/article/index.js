@@ -19,10 +19,6 @@ export default function index() {
         setArticleTitle(article)
     }, [])
 
-    // useEffect(() => {
-    //     console.log(articleTitle)
-    // }, [articleTitle])
-
     return (
         <Template
             Header={<HeaderArticle pageTitle={articleTitle.title} />}

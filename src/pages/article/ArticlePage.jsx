@@ -1,39 +1,24 @@
 import React from 'react'
-// import { useParams } from 'react-router-dom'
 import { useState, useEffect, useContext } from 'react'
 import './ArticlePage.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
-import { doc, deleteDoc } from 'firebase/firestore'
 import { UserContext } from '../../utils/context/userContext'
-import { db } from '../../firebase.config'
-import { useNavigate } from 'react-router-dom'
+import EditButton from '../../components/editButton/EditButton'
+import DeleteButton from '../../components/deleteButton/DeleteButton'
 
 export default function Article(props) {
     const publicArticles = props.publicArticles
     const articleId = props.articleId
     const [articleData, setArticleData] = useState({})
-    // const [articleDateString, setArticleDateString] = useState('')
     const { currentUser } = useContext(UserContext)
-    const navigate = useNavigate()
 
     useEffect(async () => {
         const article = await publicArticles.find(function (post) {
             if (post.id == articleId) return true
         })
-        // setArticleDateString(new Date(article.articleDate.seconds * 1000).toDateString())
         setArticleData(article)
     }, [])
-
-    const deleteDocHandler = async (articleId) => {
-        await deleteDoc(doc(db, 'articles', articleId))
-        console.log('article deleted')
-        navigate(`/private/dashboard`)
-    }
-
-    const editDocHandler = async (articleId) => {
-        navigate(`/private/edit-article/${articleId}`)
-    }
 
     return (
         <div className="article-container">
@@ -42,7 +27,6 @@ export default function Article(props) {
                     <img src={articleData.bannerUrl} className="banner-article"></img>
                 </div>
 
-                {/* <h3>{articleDateString}</h3> */}
                 <div className="article-paragraphs">
                     <div className="markdown-body">
                         <ReactMarkdown children={articleData.articleText} />
@@ -50,20 +34,8 @@ export default function Article(props) {
                 </div>
                 {currentUser ? (
                     <div className="article-buttons-container">
-                        <button
-                            className="delete-article-button"
-                            onClick={() => {
-                                deleteDocHandler(articleData.id)
-                            }}>
-                            DELETE
-                        </button>
-                        <button
-                            className="edit-article-button"
-                            onClick={() => {
-                                editDocHandler(articleData.id)
-                            }}>
-                            EDIT
-                        </button>
+                        <DeleteButton articleId={articleId} />
+                        <EditButton articleId={articleId} publicArticles={publicArticles} />
                     </div>
                 ) : null}
             </div>

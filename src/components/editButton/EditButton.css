@@ -1,0 +1,19 @@
+.edit-article-button {
+    background-color: #4357AD;
+    border: none;
+    color: white;
+    padding: 5px;
+    margin: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 10px;
+    border-radius: 50%;
+}
+
+.edit-article-button:hover {
+    background-color: #6f7cb0;
+    cursor: pointer;
+}
