@@ -2,83 +2,72 @@ import React, { useState, useEffect } from 'react'
 
 export default function MarkdownEditor({ setArticleText, articleText }) {
     const [highlightedText, setHighlightedText] = useState('')
-
-    const [isMouseUp, setIsMouseUp] = useState(false)
     const [selectionStartPos, setSelectionStartPos] = useState(0)
     const [selectionEndPos, setSelectionEndPos] = useState(0)
 
-    const selectedText = highlightedText
-    const bold = `**${selectedText}**`
-    const italic = `*${selectedText}*`
-    const h2 = `## ${selectedText}`
-    const h3 = `### ${selectedText}`
-    const h4 = `#### ${selectedText}`
-    const codeQuote = '```' + `\n${selectedText}\n` + '```'
-    const quote = `>${selectedText}`
-    const link = `[${selectedText}](${selectedText})`
+    const bold = `**${highlightedText}**`
+    const italic = `*${highlightedText}*`
+    const h2 = `## ${highlightedText}`
+    const h3 = `### ${highlightedText}`
+    const h4 = `#### ${highlightedText}`
+    const codeQuote = '```' + `\n${highlightedText}\n` + '```'
+    const quote = `>${highlightedText}`
+    const link = `[${highlightedText}](${highlightedText})`
 
-    useEffect(() => {
-        var textAreaElements = document.getElementsByClassName('article-content-input')
+    const textAreaElements = document.getElementsByClassName('article-content-input')
 
-        ;[...textAreaElements].forEach(function (element) {
-            element.addEventListener('mouseenter', function () {
-                console.log('mouse in text area')
-            })
+    function setSelection(element) {
+        let startPos = element.selectionStart
+        let endPos = element.selectionEnd
+        let selectedText = element.value.substring(startPos, endPos)
 
-            element.addEventListener('mouseout', function () {
-                console.log('mouse out from text area')
-            })
-
-            document.addEventListener('mouseup', function () {
-                setIsMouseUp(true)
-            })
-        })
-    }, [])
-
-    useEffect(() => {
-        console.log(isMouseUp)
-
-        const selection = function (element) {
-            let startPos = element.selectionStart
-            let endPos = element.selectionEnd
-            let selectedText = element.value.substring(startPos, endPos)
-            setHighlightedText(window.getSelection().toString())
-
-            if (selectedText.length <= 0) {
-                return
-            }
-
+        if (selectedText.length <= 0) {
+            console.log('⭕️')
             console.log('startPos: ' + startPos, ' | endPos: ' + endPos)
-            console.log('selectedText: ' + selectedText)
+            console.log('No text selected')
+            console.log('highlightedText: ' + highlightedText)
             setSelectionStartPos(startPos)
             setSelectionEndPos(endPos)
+            setHighlightedText('')
+        } else {
+            console.log('🟢')
+            console.log('startPos: ' + startPos, ' | endPos: ' + endPos)
+            console.log('selectedText: ' + selectedText)
+            console.log('highlightedText: ' + highlightedText)
+            setSelectionStartPos(startPos)
+            setSelectionEndPos(endPos)
+            setHighlightedText(window.getSelection().toString())
+        }
+    }
 
-            return
+    useEffect(() => {
+        const resetSelection = async () => {
+            await setHighlightedText('')
+            console.log('hl text reseted')
         }
 
-        var textAreaElements = document.getElementsByClassName('article-content-input')
-
-        ;[...textAreaElements].forEach(function (element) {
-            if (isMouseUp == true) {
-                selection(element)
-                console.log(element)
-                setIsMouseUp(false)
-            }
-
-            element.addEventListener('mouseup', function () {
-                setIsMouseUp(true)
-            })
+        document.addEventListener('mousedown', function () {
+            resetSelection()
         })
-    }, [isMouseUp])
+
+        document.addEventListener('mouseup', function () {
+            setSelection(textAreaElements.articleContent)
+        })
+    }, [])
 
     String.prototype.replaceBetween = function (start, end, what) {
         return this.substring(0, start) + what + this.substring(end)
     }
 
     const markdownHandle = (markdown) => {
-        setArticleText(articleText.replaceBetween(selectionStartPos, selectionEndPos, markdown))
-        console.log(highlightedText)
-        console.log('update article')
+        if (highlightedText == '' && selectionStartPos !== selectionEndPos) {
+            return console.log('mouse clicked out')
+        } else {
+            setArticleText(articleText.replaceBetween(selectionStartPos, selectionEndPos, markdown))
+            console.log(highlightedText)
+            console.log('update article')
+            console.log(selectionStartPos + ' - ' + selectionEndPos)
+        }
     }
 
     return (
