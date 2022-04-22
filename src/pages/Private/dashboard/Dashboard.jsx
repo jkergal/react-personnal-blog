@@ -2,8 +2,8 @@ import React, { useContext } from 'react'
 import { Link } from 'react-router-dom'
 import './Dashboard.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
-import EditButton from '../../../components/editButton/EditButton'
-import DeleteButton from '../../../components/deleteButton/DeleteButton'
+import EditButton from '../../../components/buttons/editButton/EditButton'
+import DeleteButton from '../../../components/buttons/deleteButton/DeleteButton'
 
 export default function Dashboard() {
     const { publicArticles } = useContext(FirestoreDataContext)

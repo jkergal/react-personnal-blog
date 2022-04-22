@@ -27,11 +27,6 @@ export default function WriteArticle() {
     const { fetchPublicArticles } = useContext(FirestoreDataContext)
     const { fetchDrafts } = useContext(FirestoreDataContext)
 
-    // const publicArticles = useContext(PublicArticlesDataContext)
-    // const drafts = useContext(DraftsDataContext)
-    // const allArticles = publicArticles.concat(drafts)
-    // const [isArticleExisting, setIsArticleExisting] = useState()
-
     const navigate = useNavigate()
 
     const deleteSpecialCharacters = (string) => {
@@ -101,17 +96,6 @@ export default function WriteArticle() {
         }
     }
 
-    // useEffect(async () => {
-    //     await allArticles.find(function (post) {
-    //         if (title == post.title) {
-    //             setValidation('This article title already exists')
-    //             setIsArticleExisting(true)
-    //         } else {
-    //             setIsArticleExisting(true)
-    //         }
-    //     })
-    // }, [isBannerUploaded])
-
     // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
@@ -169,7 +153,6 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Write an article</h1>
             <ArticleForm
-                // setIsFormSubmitted={setIsFormSubmitted}
                 setIsDraft={setIsDraft}
                 isEditionMode={false}
                 bannerUploadingLabel="Choose a banner for your article :"

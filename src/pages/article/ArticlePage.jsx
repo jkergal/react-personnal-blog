@@ -4,8 +4,8 @@ import './ArticlePage.css'
 import ReactMarkdown from 'react-markdown'
 import '../../utils/style/github-markdown-light.css'
 import { UserContext } from '../../utils/context/userContext'
-import EditButton from '../../components/editButton/EditButton'
-import DeleteButton from '../../components/deleteButton/DeleteButton'
+import EditButton from '../../components/buttons/editButton/EditButton'
+import DeleteButton from '../../components/buttons/deleteButton/DeleteButton'
 
 export default function Article(props) {
     const publicArticles = props.publicArticles

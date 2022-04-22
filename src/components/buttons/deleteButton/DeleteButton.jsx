@@ -1,9 +1,9 @@
 import React, { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { doc, deleteDoc } from 'firebase/firestore'
-import { db } from '../../firebase.config'
-import { FirestoreDataContext } from '../../utils/context/firestoreDataContext'
-import TrashIcon from '../../assets/icons/trash.svg'
+import { db } from '../../../firebase.config'
+import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
+import TrashIcon from '../../../assets/icons/trash.svg'
 import './DeleteButton.css'
 
 export default function EditButton(props) {

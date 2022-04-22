@@ -39,7 +39,7 @@ export default function ArticleForm(props) {
                     <p className="upload-progress">Uploading done {props.progress}%</p>
                     <p className="validation-login-form">{props.validation}</p>
                     <div className="buttons-container">
-                        {props.isEditionMode ? (
+                        {/* {props.isEditionMode ? (
                             <button
                                 onClick={(event) => {
                                     event.preventDefault()
@@ -65,7 +65,36 @@ export default function ArticleForm(props) {
                                 }}>
                                 Save as draft
                             </button>
-                        ) : null}
+                        ) : null} */}
+
+                        {/* --------------------------------- */}
+
+                        {props.isEditionMode ? (
+                            <button
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    props.setIsDraft(true)
+                                }}>
+                                Save as draft
+                            </button>
+                        ) : (
+                            <>
+                                <button
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        props.setIsDraft(false)
+                                    }}>
+                                    Post
+                                </button>
+                                <button
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        props.setIsDraft(true)
+                                    }}>
+                                    Save
+                                </button>
+                            </>
+                        )}
                     </div>
                 </form>
             </div>

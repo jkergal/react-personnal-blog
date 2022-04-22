@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import EditIcon from '../../assets/icons/pencil.svg'
+import EditIcon from '../../../assets/icons/pencil.svg'
 import './EditButton.css'
 
 export default function EditButton(props) {
