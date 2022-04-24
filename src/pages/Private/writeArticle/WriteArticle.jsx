@@ -153,6 +153,7 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Write an article</h1>
             <ArticleForm
+                isNewArticle={true}
                 setIsDraft={setIsDraft}
                 isEditionMode={false}
                 bannerUploadingLabel="Choose a banner for your article :"

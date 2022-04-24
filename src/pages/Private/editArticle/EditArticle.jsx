@@ -16,6 +16,7 @@ export default function WriteArticle() {
 
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
+    const [articleStatus, setArticleStatus] = useState('')
 
     const [validation, setValidation] = useState('')
 
@@ -63,6 +64,7 @@ export default function WriteArticle() {
         setTitle(articleData.title)
         setArticleText(articleData.articleText)
         setArticleDate(articleData.articleDate)
+        setArticleStatus(articleData.isDraft)
     }, [articleData])
 
     const chooseFileHandler = async (e) => {
@@ -174,6 +176,8 @@ export default function WriteArticle() {
         <div className="write-articles-page">
             <h1>Edit your article</h1>
             <ArticleForm
+                isNewArticle={false}
+                isDraft={articleStatus}
                 setIsDraft={setIsDraft}
                 articleDataIsDraft={articleData.isDraft}
                 isEditionMode={true}

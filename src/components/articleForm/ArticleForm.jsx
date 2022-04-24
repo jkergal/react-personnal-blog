@@ -9,6 +9,15 @@ export default function ArticleForm(props) {
         <>
             <div className="article-form-container">
                 <form className="article-form">
+                    {props.isDraft == false ? (
+                        <p className="little-text-bold">
+                            Your article is located in your Published collection
+                        </p>
+                    ) : (
+                        <p className="little-text-bold">
+                            Your article is located in your Drafts collection
+                        </p>
+                    )}
                     {props.isEditionMode ? (
                         <h2>{props.title}</h2>
                     ) : (
@@ -69,31 +78,31 @@ export default function ArticleForm(props) {
 
                         {/* --------------------------------- */}
 
-                        {props.isEditionMode ? (
-                            <button
-                                onClick={(event) => {
-                                    event.preventDefault()
-                                    props.setIsDraft(true)
-                                }}>
-                                Save as draft
-                            </button>
-                        ) : (
+                        {props.isDraft == true || props.isNewArticle == true ? (
                             <>
                                 <button
                                     onClick={(event) => {
                                         event.preventDefault()
                                         props.setIsDraft(false)
                                     }}>
-                                    Post
+                                    Publish
                                 </button>
                                 <button
                                     onClick={(event) => {
                                         event.preventDefault()
                                         props.setIsDraft(true)
                                     }}>
-                                    Save
+                                    Save as draft
                                 </button>
                             </>
+                        ) : (
+                            <button
+                                onClick={(event) => {
+                                    event.preventDefault()
+                                    props.setIsDraft(false)
+                                }}>
+                                Save Public Article
+                            </button>
                         )}
                     </div>
                 </form>
