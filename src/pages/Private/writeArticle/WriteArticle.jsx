@@ -8,10 +8,11 @@ import './WriteArticle.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+
     const currentDate = new Date()
     const [articleDate, setArticleDate] = useState('')
     const [isDraft, setIsDraft] = useState()
-
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
@@ -60,14 +61,14 @@ export default function WriteArticle() {
 
     // 1 - the form submitting starts here
     useEffect(() => {
-        if (isDraft == true || isDraft == false) {
-            console.log('isDraft : ')
-            console.log(isDraft)
+        if (isFormSubmitted == true) {
+            console.log('isFormSubmitted : ')
+            console.log(isFormSubmitted)
             uploadBanner(banner)
         } else {
             return
         }
-    }, [isDraft])
+    }, [isFormSubmitted])
 
     // 2 - then the handler uplaod the file in the firebase storage
     const uploadBanner = (banner) => {
@@ -110,12 +111,13 @@ export default function WriteArticle() {
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    setTitle('')
-                    setArticleText('')
-                    setArticleDate('')
+                    // setTitle('')
+                    // setArticleText('')
+                    // setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchDrafts()
-                    navigate(`/private/draft/${deleteSpecialCharacters(title)}`)
+                    fetchDrafts().then(() =>
+                        navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
+                    )
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -133,12 +135,13 @@ export default function WriteArticle() {
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    setTitle('')
-                    setArticleText('')
-                    setArticleDate('')
+                    // setTitle('')
+                    // setArticleText('')
+                    // setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchPublicArticles()
-                    navigate(`/article/${deleteSpecialCharacters(title)}`)
+                    fetchPublicArticles().then(() =>
+                        navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
+                    )
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -155,6 +158,7 @@ export default function WriteArticle() {
             <ArticleForm
                 isNewArticle={true}
                 setIsDraft={setIsDraft}
+                setIsFormSubmitted={setIsFormSubmitted}
                 isEditionMode={false}
                 bannerUploadingLabel="Choose a banner for your article :"
                 setTitle={setTitle}

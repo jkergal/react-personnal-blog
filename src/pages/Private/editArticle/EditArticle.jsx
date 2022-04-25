@@ -3,17 +3,16 @@ import ArticleForm from '../../../components/articleForm/ArticleForm'
 import { doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { useNavigate } from 'react-router-dom'
+// import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditArticle.css'
-// import { PublicArticlesDataContext } from '../../../utils/context/publicArticlesDataContext'
-// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
+    const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+
     const [articleDate, setArticleDate] = useState('')
     const [isDraft, setIsDraft] = useState()
-
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
     const [articleStatus, setArticleStatus] = useState('')
@@ -33,10 +32,10 @@ export default function WriteArticle() {
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
-    const { fetchPublicArticles } = useContext(FirestoreDataContext)
-    const { fetchDrafts } = useContext(FirestoreDataContext)
+    // const { fetchPublicArticles } = useContext(FirestoreDataContext)
+    // const { fetchDrafts } = useContext(FirestoreDataContext)
 
-    const navigate = useNavigate()
+    // const navigate = useNavigate()
 
     const deleteSpecialCharacters = (string) => {
         return string
@@ -82,14 +81,14 @@ export default function WriteArticle() {
 
     // 1 - the form submitting starts here
     useEffect(() => {
-        if (isDraft == true || isDraft == false) {
-            console.log('isDraft : ')
-            console.log(isDraft)
+        if (isFormSubmitted == true) {
+            console.log('isFormSubmitted : ')
+            console.log(isFormSubmitted)
             uploadBanner(banner)
         } else {
             return
         }
-    }, [isDraft])
+    }, [isFormSubmitted])
 
     // 2 - then the handler uplaod the banner in the firebase storage
     const uploadBanner = (banner) => {
@@ -132,12 +131,20 @@ export default function WriteArticle() {
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    setTitle('')
-                    setArticleText('')
-                    setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchDrafts()
-                    navigate(`/private/draft/${deleteSpecialCharacters(title)}`)
+                    setIsFormSubmitted(false)
+                    setTimeout(() => {
+                        setProgress(0)
+                        setValidation('')
+                    }, 2500)
+                    // setIsDraft()
+                    // setTitle('')
+                    // setArticleText('')
+                    // setArticleDate('')
+
+                    // await fetchDrafts()
+                    // navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
+                    console.log('CACA')
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -156,12 +163,16 @@ export default function WriteArticle() {
                     deleteDraft(articleId)
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    setTitle('')
-                    setArticleText('')
-                    setArticleDate('')
                     setIsBannerUploaded(false)
-                    await fetchPublicArticles()
-                    navigate(`/article/${deleteSpecialCharacters(title)}`)
+                    setIsFormSubmitted(false)
+                    setTimeout(() => {
+                        setProgress(0)
+                        setValidation('')
+                    }, 2500)
+                    // setIsBannerUploaded(false)
+                    // await fetchPublicArticles()
+                    // await navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
+                    console.log('PROUT')
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -179,6 +190,7 @@ export default function WriteArticle() {
                 isNewArticle={false}
                 isDraft={articleStatus}
                 setIsDraft={setIsDraft}
+                setIsFormSubmitted={setIsFormSubmitted}
                 articleDataIsDraft={articleData.isDraft}
                 isEditionMode={true}
                 bannerUploadingLabel="Change your article banner :"
