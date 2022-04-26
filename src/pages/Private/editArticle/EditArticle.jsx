@@ -3,16 +3,16 @@ import ArticleForm from '../../../components/articleForm/ArticleForm'
 import { doc, setDoc, deleteDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-// import { useNavigate } from 'react-router-dom'
 import { useParams } from 'react-router-dom'
 import './EditArticle.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function WriteArticle() {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+    const [isChangingCollection, setIsChangingCollection] = useState()
+    const [isGoingToDraft, setIsGoingToDraft] = useState()
 
     const [articleDate, setArticleDate] = useState('')
-    const [isDraft, setIsDraft] = useState()
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
     const [articleStatus, setArticleStatus] = useState('')
@@ -25,7 +25,9 @@ export default function WriteArticle() {
     const [isBannerUploaded, setIsBannerUploaded] = useState(false)
 
     const { articleId } = useParams('')
+
     const [articleData, setArticleData] = useState({})
+
     const { publicArticles } = useContext(FirestoreDataContext)
     const { drafts } = useContext(FirestoreDataContext)
     const allArticles = publicArticles.concat(drafts)
@@ -45,6 +47,10 @@ export default function WriteArticle() {
             .replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '')
             .replaceAll('--', '-')
     }
+
+    // const isStayingInSameCollection = () => {
+
+    // }
 
     const deleteDraft = async (articleId) => {
         await deleteDoc(doc(db, 'drafts', articleId))
@@ -120,14 +126,14 @@ export default function WriteArticle() {
     // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
-            if (isDraft) {
+            if (isGoingToDraft && !isChangingCollection) {
                 try {
                     await setDoc(doc(db, 'drafts', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
                         title,
-                        isDraft
+                        isDraft: true
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -137,30 +143,21 @@ export default function WriteArticle() {
                         setProgress(0)
                         setValidation('')
                     }, 2500)
-                    // setIsDraft()
-                    // setTitle('')
-                    // setArticleText('')
-                    // setArticleDate('')
-
-                    // await fetchDrafts()
-                    // navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
-                    console.log('CACA')
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
                 }
             }
 
-            if (isDraft == false) {
+            if (!isGoingToDraft && !isChangingCollection) {
                 try {
                     await setDoc(doc(db, 'articles', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
                         title,
-                        isDraft
+                        isDraft: false
                     })
-                    deleteDraft(articleId)
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
                     setIsBannerUploaded(false)
@@ -169,10 +166,31 @@ export default function WriteArticle() {
                         setProgress(0)
                         setValidation('')
                     }, 2500)
-                    // setIsBannerUploaded(false)
-                    // await fetchPublicArticles()
-                    // await navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
-                    console.log('PROUT')
+                } catch (err) {
+                    console.log(err)
+                    setValidation('Wopsy, there was an error posting the article')
+                }
+            }
+
+            if (!isGoingToDraft && isChangingCollection) {
+                try {
+                    await setDoc(doc(db, 'articles', deleteSpecialCharacters(title)), {
+                        articleText,
+                        bannerUrl,
+                        articleDate,
+                        title,
+                        isDraft: false
+                    })
+                    deleteDraft(articleId)
+                    setValidation('Article successfully posted')
+                    console.log('Articled successfully posted')
+                    setIsBannerUploaded(false)
+                    setIsFormSubmitted(false)
+                    console.log('is NOT')
+                    setTimeout(() => {
+                        setProgress(0)
+                        setValidation('')
+                    }, 2500)
                 } catch (err) {
                     console.log(err)
                     setValidation('Wopsy, there was an error posting the article')
@@ -189,8 +207,9 @@ export default function WriteArticle() {
             <ArticleForm
                 isNewArticle={false}
                 isDraft={articleStatus}
-                setIsDraft={setIsDraft}
+                setIsGoingToDraft={setIsGoingToDraft}
                 setIsFormSubmitted={setIsFormSubmitted}
+                setIsChangingCollection={setIsChangingCollection}
                 articleDataIsDraft={articleData.isDraft}
                 isEditionMode={true}
                 bannerUploadingLabel="Change your article banner :"

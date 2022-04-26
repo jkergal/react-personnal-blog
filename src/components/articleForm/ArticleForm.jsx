@@ -79,13 +79,13 @@ export default function ArticleForm(props) {
                     <p className="validation-login-form">{props.validation}</p>
 
                     <div className="buttons-container">
-                        {props.isDraft == true || props.isNewArticle == true ? (
+                        {props.isNewArticle == true ? (
                             <>
                                 <button
                                     onClick={(event) => {
                                         event.preventDefault()
                                         props.setIsFormSubmitted(true)
-                                        props.setIsDraft(false)
+                                        props.setIsGoingToDraft(false)
                                     }}>
                                     Publish
                                 </button>
@@ -94,13 +94,40 @@ export default function ArticleForm(props) {
                                         onClick={(event) => {
                                             event.preventDefault()
                                             props.setIsFormSubmitted(true)
-                                            props.setIsDraft(true)
+                                            props.setIsGoingToDraft(true)
                                         }}>
                                         Save
                                     </button>
                                     <p className="little-text-bold">as</p>
                                     <p style={draftCollectionStyle} className="little-text-bold">
-                                        Drafts
+                                        Draft
+                                    </p>
+                                </div>
+                            </>
+                        ) : props.isDraft == true ? (
+                            <>
+                                <button
+                                    onClick={(event) => {
+                                        event.preventDefault()
+                                        props.setIsFormSubmitted(true)
+                                        props.setIsGoingToDraft(false)
+                                        props.setIsChangingCollection(true)
+                                    }}>
+                                    Publish
+                                </button>
+                                <div className="save-article-container">
+                                    <button
+                                        onClick={(event) => {
+                                            event.preventDefault()
+                                            props.setIsFormSubmitted(true)
+                                            props.setIsGoingToDraft(true)
+                                            props.setIsChangingCollection(false)
+                                        }}>
+                                        Save
+                                    </button>
+                                    <p className="little-text-bold">as</p>
+                                    <p style={draftCollectionStyle} className="little-text-bold">
+                                        Draft
                                     </p>
                                 </div>
                             </>
@@ -110,7 +137,8 @@ export default function ArticleForm(props) {
                                     onClick={(event) => {
                                         event.preventDefault()
                                         props.setIsFormSubmitted(true)
-                                        props.setIsDraft(false)
+                                        props.setIsGoingToDraft(false)
+                                        props.setIsChangingCollection(false)
                                     }}>
                                     Save
                                 </button>

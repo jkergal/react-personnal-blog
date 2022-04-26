@@ -9,10 +9,11 @@ import { FirestoreDataContext } from '../../../utils/context/firestoreDataContex
 
 export default function WriteArticle() {
     const [isFormSubmitted, setIsFormSubmitted] = useState(false)
+    const [isGoingToDraft, setIsGoingToDraft] = useState()
 
     const currentDate = new Date()
     const [articleDate, setArticleDate] = useState('')
-    const [isDraft, setIsDraft] = useState()
+    // const [isDraft, setIsDraft] = useState()
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
@@ -100,14 +101,14 @@ export default function WriteArticle() {
     // 3 - finally, the article data goes to firestore
     useEffect(async () => {
         if (isBannerUploaded == true) {
-            if (isDraft) {
+            if (isGoingToDraft) {
                 try {
                     await setDoc(doc(db, 'drafts', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
                         title,
-                        isDraft
+                        isDraft: true
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -124,14 +125,14 @@ export default function WriteArticle() {
                 }
             }
 
-            if (isDraft == false) {
+            if (!isGoingToDraft) {
                 try {
                     await setDoc(doc(db, 'articles', deleteSpecialCharacters(title)), {
                         articleText,
                         bannerUrl,
                         articleDate,
                         title,
-                        isDraft
+                        isDraft: false
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
@@ -157,7 +158,8 @@ export default function WriteArticle() {
             <h1>Write an article</h1>
             <ArticleForm
                 isNewArticle={true}
-                setIsDraft={setIsDraft}
+                // setIsDraft={setIsDraft}
+                setIsGoingToDraft={setIsGoingToDraft}
                 setIsFormSubmitted={setIsFormSubmitted}
                 isEditionMode={false}
                 bannerUploadingLabel="Choose a banner for your article :"
