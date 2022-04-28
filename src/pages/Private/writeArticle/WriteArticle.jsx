@@ -6,8 +6,10 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
+// import { Prompt } from 'react-router-dom'
 
 export default function WriteArticle() {
+    const [formValuesChanged, setFormValuesChanged] = useState(false)
     const [isFormSubmitted, setIsFormSubmitted] = useState(false)
     const [isGoingToDraft, setIsGoingToDraft] = useState()
 
@@ -39,6 +41,16 @@ export default function WriteArticle() {
             .replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '')
             .replaceAll('--', '-')
     }
+
+    // useEffect(() => {
+    //     setFormValuesChanged(true)
+    //     console.log('Values Has Changed')
+    // }, [articleText, title])
+
+    useEffect(() => {
+        console.log('Values Has Changed')
+        console.log(formValuesChanged)
+    }, [formValuesChanged])
 
     // save date in the state at first render of the page
     useEffect(() => {
@@ -156,9 +168,13 @@ export default function WriteArticle() {
     return (
         <div className="write-articles-page">
             <h1>Write an article</h1>
+            {/* <Prompt
+                when={formValuesChanged}
+                message="You didn't save your changes in your article. Are you sure you want to quit? "
+            /> */}
             <ArticleForm
                 isNewArticle={true}
-                // setIsDraft={setIsDraft}
+                setFormValuesChanged={setFormValuesChanged}
                 setIsGoingToDraft={setIsGoingToDraft}
                 setIsFormSubmitted={setIsFormSubmitted}
                 isEditionMode={false}

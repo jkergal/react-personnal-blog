@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 
-export default function MarkdownEditor({ setArticleText, articleText }) {
+export default function MarkdownEditor({ setArticleText, articleText, setFormValuesChanged }) {
     const [highlightedText, setHighlightedText] = useState('')
     const [selectionStartPos, setSelectionStartPos] = useState(0)
     const [selectionEndPos, setSelectionEndPos] = useState(0)
@@ -146,6 +146,7 @@ export default function MarkdownEditor({ setArticleText, articleText }) {
                 placeholder="Here is my best blog article..."
                 onChange={(event) => {
                     setArticleText(event.target.value)
+                    setFormValuesChanged(true)
                 }}
                 value={articleText}></textarea>
         </div>

@@ -55,6 +55,7 @@ export default function ArticleForm(props) {
                             onChange={(event) => {
                                 event.preventDefault()
                                 props.setTitle(event.target.value)
+                                props.setFormValuesChanged(true)
                             }}
                             value={props.title}></input>
                     )}
@@ -62,6 +63,7 @@ export default function ArticleForm(props) {
                     <MarkdownEditor
                         setArticleText={props.setArticleText}
                         articleText={props.articleText}
+                        setFormValuesChanged={props.setFormValuesChanged}
                     />
 
                     <label htmlFor="bannerFile">
