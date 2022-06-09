@@ -5,7 +5,7 @@ import styled from 'styled-components'
 export default function Template(props) {
     const PageGrid = styled.div`
         width: 100%;
-        height: 100%;
+        height: 100vh;
         display: grid;
         grid-template-columns: 1fr 300px;
         grid-template-rows: ${props.headerHeight} 1fr;

@@ -203,7 +203,6 @@ export default function WriteArticle() {
 
     return (
         <div className="write-articles-page">
-            <h1>Edit your article</h1>
             <ArticleForm
                 isNewArticle={false}
                 isDraft={articleStatus}

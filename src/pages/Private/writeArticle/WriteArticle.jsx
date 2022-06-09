@@ -3,7 +3,7 @@ import ArticleForm from '../../../components/articleForm/ArticleForm'
 import { doc, setDoc } from 'firebase/firestore'
 import { db, storage } from '../../../firebase.config'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
-import { useNavigate, usePrompt } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 // import { Prompt } from 'react-router-dom'
@@ -47,7 +47,7 @@ export default function WriteArticle() {
     //     console.log('Values Has Changed')
     // }, [articleText, title])
 
-    usePrompt('Hello from usePrompt -- Are you sure you want to leave?', formValuesChanged)
+    // usePrompt('Hello from usePrompt -- Are you sure you want to leave?', formValuesChanged)
 
     useEffect(() => {
         console.log('Values Has Changed')
@@ -170,7 +170,6 @@ export default function WriteArticle() {
 
     return (
         <div className="write-articles-page">
-            <h1>Write an article</h1>
             {/* <Prompt
                 when={formValuesChanged}
                 message="You didn't save your changes in your article. Are you sure you want to quit? "

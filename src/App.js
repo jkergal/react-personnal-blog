@@ -5,10 +5,10 @@ import { Route, Routes } from 'react-router-dom'
 import Navbar from './components/navbar/Navbar'
 import Private from './pages/Private/Private'
 import Dashboard from './pages/Private/dashboard/Dashboard'
-import WriteArticle from './pages/Private/writeArticle/WriteArticle'
+import WriteArticle from './pages/Private/writeArticle/index'
 import Article from './pages/article'
 import Draft from './pages/Private/draft/Draft'
-import EditArticle from './pages/Private/editArticle/EditArticle'
+import EditArticle from './pages/Private/editArticle/index'
 
 export default function app(props) {
     console.log('App component as launched yeahh')
