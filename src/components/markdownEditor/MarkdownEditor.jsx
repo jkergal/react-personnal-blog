@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import './MarkdownEditor.css'
 
 export default function MarkdownEditor({ setArticleText, articleText, setFormValuesChanged }) {
     const [highlightedText, setHighlightedText] = useState('')
@@ -141,8 +142,6 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
             <textarea
                 className="article-content-input"
                 name="articleContent"
-                rows="50"
-                cols="50"
                 placeholder="Here is my best blog article..."
                 onChange={(event) => {
                     setArticleText(event.target.value)
