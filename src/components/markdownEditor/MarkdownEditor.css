@@ -10,3 +10,20 @@
 .article-content-input:focus {
     outline: none;
 }
+
+.editing-tool-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 500px;
+}
+
+.markdown-tool-button {
+    border: none;
+    background-color: #2A2B2A;
+    color: #F9FCEF;
+    width: 50px;
+    padding: 7px;
+    border-radius: 10px;
+    cursor:pointer;
+}

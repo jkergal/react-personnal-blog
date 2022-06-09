@@ -15,6 +15,8 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
     const quote = `>${highlightedText}`
     const link = `[${highlightedText}](${highlightedText})`
 
+    const code = '</>'
+
     const textAreaElements = document.getElementsByClassName('article-content-input')
 
     function setSelection(element) {
@@ -80,7 +82,7 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
                     onClick={() => {
                         markdownHandle(bold)
                     }}>
-                    B
+                    <b>B</b>
                 </button>
                 <button
                     className="markdown-tool-button"
@@ -88,7 +90,7 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
                     onClick={() => {
                         markdownHandle(italic)
                     }}>
-                    i
+                    <i>i</i>
                 </button>
                 <button
                     className="markdown-tool-button"
@@ -120,7 +122,7 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
                     onClick={() => {
                         markdownHandle(codeQuote)
                     }}>
-                    code
+                    {code}
                 </button>
                 <button
                     className="markdown-tool-button"
@@ -128,7 +130,7 @@ export default function MarkdownEditor({ setArticleText, articleText, setFormVal
                     onClick={() => {
                         markdownHandle(quote)
                     }}>
-                    quote
+                    <b>&quot;</b>
                 </button>
                 <button
                     className="markdown-tool-button"
