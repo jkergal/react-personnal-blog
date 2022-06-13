@@ -1,0 +1,21 @@
+.articles-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.articles-grid {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    position: relative;
+    top: 80px;
+}
+
+
+@media only screen and (max-width: 1300px) {
+    .articles-grid {
+        display: grid;
+        grid-template-columns: 100%;
+    }
+}

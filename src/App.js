@@ -1,30 +1,25 @@
-import Home from './pages/home/Home'
+import Home from './pages/home/index'
 import Login from './pages/login/Login'
 import './App.css'
 import { Route, Routes } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar/Navbar'
 import Private from './pages/Private/Private'
 import Dashboard from './pages/Private/dashboard/Dashboard'
-import WriteArticle from './pages/Private/write-article/WriteArticle'
-import Article from './pages/article/Article'
+import WriteArticle from './pages/Private/writeArticle/index'
+import Article from './pages/article'
 import Draft from './pages/Private/draft/Draft'
-import EditArticle from './pages/Private/edit-article/EditArticle'
-import BloggerCard from './components/BloggerCard'
-import Header from './components/Header'
+import EditArticle from './pages/Private/editArticle/index'
 
 export default function app(props) {
     console.log('App component as launched yeahh')
     return (
         <>
             <div className="main-grid">
-                <div className="navbar-container">
+                <div className="navbar-box">
                     <Navbar />
                 </div>
-                <div className="header-container">
-                    <Header pageTitle="Latest articles" />
-                </div>
 
-                <div className="content-container">
+                <div className="page-box">
                     <Routes>
                         <Route exact path="/" element={<Home />}></Route>
                         <Route path="/article/:articleId" element={<Article />}></Route>
@@ -39,10 +34,6 @@ export default function app(props) {
                             <Route path="/private/write-article" element={<WriteArticle />}></Route>
                         </Route>
                     </Routes>
-                </div>
-
-                <div className="blogger-card-container">
-                    <BloggerCard />
                 </div>
             </div>
         </>
