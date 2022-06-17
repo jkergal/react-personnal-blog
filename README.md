@@ -1,5 +1,10 @@
 ## SIMPLE REACT PERSONNAL BLOG
 
+## ⚠️⚠️⚠️
+
+This project is in developping phase. Some features are missing, and some issues are still living.
+Code in main branch is here only to show what i'm doing to the world. 😉
+
 ## Description
 
 This is a ReactJS project to set up your own personnal blog. You can write text articles, with some features like markdown articles shaping, drafts, admin dashboard, etc.
