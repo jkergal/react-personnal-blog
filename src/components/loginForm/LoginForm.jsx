@@ -22,8 +22,6 @@ export default function LoginForm() {
         console.log(inputs)
         try {
             await signIn(inputs.current[0].value, inputs.current[1].value)
-            // à tester
-            // formRef.current.reset();
             setValidation('')
             navigate('/private/dashboard')
         } catch (err) {
@@ -64,10 +62,6 @@ export default function LoginForm() {
 
                         <button>Sign In</button>
                     </form>
-
-                    {/* <label>
-      <input type="checkbox"> Remember me</input>
-    </label> */}
                 </div>
             </div>
         </>

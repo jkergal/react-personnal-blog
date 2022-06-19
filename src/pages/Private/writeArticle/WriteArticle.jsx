@@ -6,7 +6,6 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { useNavigate } from 'react-router-dom'
 import './WriteArticle.css'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
-// import { Prompt } from 'react-router-dom'
 
 export default function WriteArticle() {
     const [formValuesChanged, setFormValuesChanged] = useState(false)
@@ -15,7 +14,6 @@ export default function WriteArticle() {
 
     const currentDate = new Date()
     const [articleDate, setArticleDate] = useState('')
-    // const [isDraft, setIsDraft] = useState()
     const [title, setTitle] = useState('')
     const [articleText, setArticleText] = useState('')
 
@@ -46,8 +44,6 @@ export default function WriteArticle() {
     //     setFormValuesChanged(true)
     //     console.log('Values Has Changed')
     // }, [articleText, title])
-
-    // usePrompt('Hello from usePrompt -- Are you sure you want to leave?', formValuesChanged)
 
     useEffect(() => {
         console.log('Values Has Changed')
@@ -126,9 +122,6 @@ export default function WriteArticle() {
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    // setTitle('')
-                    // setArticleText('')
-                    // setArticleDate('')
                     setIsBannerUploaded(false)
                     setFormValuesChanged(false)
                     fetchDrafts().then(() =>
@@ -151,9 +144,6 @@ export default function WriteArticle() {
                     })
                     setValidation('Article successfully posted')
                     console.log('Articled successfully posted')
-                    // setTitle('')
-                    // setArticleText('')
-                    // setArticleDate('')
                     setIsBannerUploaded(false)
                     fetchPublicArticles().then(() =>
                         navigate(`/private/edit-article/${deleteSpecialCharacters(title)}`)
@@ -170,10 +160,6 @@ export default function WriteArticle() {
 
     return (
         <div className="write-articles-page">
-            {/* <Prompt
-                when={formValuesChanged}
-                message="You didn't save your changes in your article. Are you sure you want to quit? "
-            /> */}
             <ArticleForm
                 isNewArticle={true}
                 setFormValuesChanged={setFormValuesChanged}

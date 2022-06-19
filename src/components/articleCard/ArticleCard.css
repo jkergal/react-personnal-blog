@@ -5,17 +5,12 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    /* position: relative; */
-    /* top: 75px; */
-    /* margin: 100px; */
-    /* margin: 100px; */
 }
 
 .article-card-wrapper {
     padding: 20px;
     width: 75%;
     height: 202px;
-    /* background-color: brown; */
     display: flex;
     justify-content: flex start;
     align-items: center;
@@ -50,7 +45,6 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    /* background-color: aqua; */
 }
 
 .article-title {
@@ -73,7 +67,6 @@
 .article-tags-container {
     display: flex;
     flex-direction: row;
-    /* justify-content: space-between; */
 }
 
 .tag-wrapper {

@@ -9,7 +9,6 @@
 
 .banner-article {
     width: 100%;
-    /* height: auto; */
 }
 
 .banner-wrapper {
@@ -26,12 +25,10 @@
     padding: 0px;
     max-width: 1000px;
     border-radius: 10px;
-    /* background-color: white; */
 }
 
 .article-paragraphs {
     text-align: justify;
-    /* padding: 25px; */
     margin-top: 75px;
 }
 

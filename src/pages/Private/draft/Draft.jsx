@@ -4,7 +4,6 @@ import { useState, useEffect, useContext } from 'react'
 import './Draft.css'
 import ReactMarkdown from 'react-markdown'
 import '../../../utils/style/github-markdown-light.css'
-// import { DraftsDataContext } from '../../../utils/context/drafsDataContext'
 import { FirestoreDataContext } from '../../../utils/context/firestoreDataContext'
 
 export default function Article() {

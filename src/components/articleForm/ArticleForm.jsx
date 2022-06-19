@@ -31,18 +31,6 @@ export default function ArticleForm(props) {
         <>
             <div className="article-form-container">
                 <form className="article-form">
-                    {/* {props.isDraft == false ? (
-                        <p className="little-text-bold">
-                            Your article is located in your{' '}
-                            <b style={publishedCollectionStyle}>Published</b> collection
-                        </p>
-                    ) : (
-                        <p className="little-text-bold">
-                            Your article is located in your{' '}
-                            <b style={draftCollectionStyle}>Drafts</b> collection
-                        </p>
-                    )} */}
-
                     {props.isEditionMode ? (
                         <h2>{props.title}</h2>
                     ) : (

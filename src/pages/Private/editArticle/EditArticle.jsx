@@ -34,11 +34,6 @@ export default function WriteArticle() {
 
     const defaultBanner = 'https://jker.fr/defaultbanner'
 
-    // const { fetchPublicArticles } = useContext(FirestoreDataContext)
-    // const { fetchDrafts } = useContext(FirestoreDataContext)
-
-    // const navigate = useNavigate()
-
     const deleteSpecialCharacters = (string) => {
         return string
             .toLowerCase()
@@ -47,10 +42,6 @@ export default function WriteArticle() {
             .replace(/[&\/\\#, +()$~%.'":*?<>{}]/g, '')
             .replaceAll('--', '-')
     }
-
-    // const isStayingInSameCollection = () => {
-
-    // }
 
     const deleteDraft = async (articleId) => {
         await deleteDoc(doc(db, 'drafts', articleId))
