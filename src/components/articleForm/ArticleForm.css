@@ -26,7 +26,20 @@
 }
 
 .article-title-input {
+    border: none;
+    background-color: transparent;
     width: 100%;
+    font-family: merriweatherblack_italic;
+    font-size: 48px;
+    color: #2A2B2A;
+}
+
+.article-title-input::placeholder{
+    color: #c7cfc7;
+  }
+
+.article-title-input:focus {
+    outline: none;
 }
 
 .text-input {
